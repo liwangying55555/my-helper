@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>面板设置</title>
-  <link rel="stylesheet" href="../page.css" />
+  <link rel="stylesheet" href="../../shared/page_header.css" />
+  <link rel="stylesheet" href="../../shared/tool_icon.css" />
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
+  <div id="app_header" data_tool_id="setting"></div>
   <div class="page_wrap">
     <h1 class="page_title">面板设置</h1>
-    <p class="page_desc">勾选后入口会置顶展示在插件面板，配置保存在本地</p>
+    <p class="page_desc">拖拽调整顺序，勾选后入口会置顶展示在插件面板，配置保存在本地</p>
     <div class="tool_block">
       <div class="entry_list" id="entry_list"></div>
       <div class="btn_row">
@@ -20,6 +22,7 @@
     </div>
   </div>
   <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

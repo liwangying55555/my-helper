@@ -1,0 +1,28 @@
+.tool_icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.tool_icon svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.tool_icon_sm {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+}
+
+.tool_icon_sm svg {
+  width: 13px;
+  height: 13px;
+}

@@ -28,29 +28,6 @@ body {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.bar_group {
-  display: inline-flex;
-  border: 1px solid #dbe3f0;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #fff;
-}
-
-.bar_btn {
-  padding: 6px 14px;
-  border: none;
-  background: #fff;
-  color: #334155;
-  font-size: 13px;
-  cursor: default;
-}
-
-.bar_btn.is_active,
-.bar_btn_primary.is_active {
-  background: #3b82f6;
-  color: #fff;
-}
-
 .bar_spacer {
   flex: 1;
   min-width: 8px;

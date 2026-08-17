@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>JSON 美化</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
   <div class="json_page">
+    <div id="app_header" data_tool_id="json_format"></div>
     <header class="tool_bar">
       <div class="bar_group">
-        <button class="bar_btn bar_btn_primary is_active" id="format_btn" type="button">格式化</button>
+        <button class="bar_btn is_active" id="format_btn" type="button">格式化</button>
         <button class="bar_btn" id="minify_btn" type="button">压缩</button>
       </div>
       <div class="bar_group">
@@ -51,7 +53,7 @@
           <span>解析结果</span>
           <span class="status_tip" id="status_tip"></span>
         </div>
-        <div class="result_box" id="result_box">
+          <div class="result_box">
           <div class="empty_state" id="empty_state">
             <div class="empty_card">
               <div class="json_badge">JSON</div>
@@ -64,6 +66,8 @@
       </section>
     </main>
   </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

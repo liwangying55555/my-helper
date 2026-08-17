@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>二维码生成</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
   <div class="qr_page">
+    <div id="app_header" data_tool_id="qrcode"></div>
     <header class="tool_bar">
-      <div class="bar_group">
-        <button class="bar_btn bar_btn_primary is_active" type="button">二维码生成</button>
-      </div>
       <div class="bar_spacer"></div>
       <button class="bar_link" id="clear_btn" type="button">清空</button>
       <span class="status_tip" id="status_tip"></span>
@@ -43,6 +42,8 @@
       </section>
     </main>
   </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
   <script src="qrcode_lib.js"></script>
   <script src="index.js"></script>
 </body>

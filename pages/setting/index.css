@@ -1,3 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.page_wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px 32px;
+}
+
+.page_title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.page_desc {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tool_block {
+  padding: 16px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.btn_row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tool_btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tool_btn:hover {
+  background: #1d4ed8;
+}
+
+.tool_btn_ghost {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.tool_btn_ghost:hover {
+  background: #cbd5e1;
+}
+
+.tip_text {
+  margin: 10px 0 0;
+  min-height: 18px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.tip_ok {
+  color: #059669;
+}
+
+.tip_err {
+  color: #dc2626;
+}
+
 .entry_list {
   display: flex;
   flex-direction: column;
@@ -8,15 +91,38 @@
 .entry_row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   padding: 10px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #fff;
+  cursor: grab;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.entry_row.is_dragging {
+  opacity: 0.55;
+  cursor: grabbing;
+}
+
+.entry_row.is_drag_over {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.drag_handle {
+  flex-shrink: 0;
+  width: 18px;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: -2px;
+  user-select: none;
 }
 
 .entry_name {
+  flex: 1;
+  min-width: 0;
   font-size: 13px;
   color: #1f2937;
 }
@@ -25,6 +131,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-left: auto;
   font-size: 12px;
   color: #64748b;
   white-space: nowrap;

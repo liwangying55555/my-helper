@@ -7,15 +7,6 @@ function open_page(page_path) {
   });
 }
 
-function bind_menu_click(btn) {
-  btn.addEventListener('click', () => {
-    var page = btn.getAttribute('data_page');
-    if (page) {
-      open_page(page);
-    }
-  });
-}
-
 function render_menu(pins) {
   var list = document.getElementById('menu_list');
   var empty_tip = document.getElementById('empty_tip');
@@ -30,9 +21,16 @@ function render_menu(pins) {
     var btn = document.createElement('button');
     btn.className = 'menu_item';
     btn.type = 'button';
-    btn.setAttribute('data_page', tool.page);
-    btn.textContent = tool.title;
-    bind_menu_click(btn);
+
+    var title = document.createElement('span');
+    title.className = 'menu_item_title';
+    title.textContent = tool.title;
+
+    btn.appendChild(create_tool_icon(tool.id));
+    btn.appendChild(title);
+    btn.addEventListener('click', () => {
+      open_page(tool.page);
+    });
     list.appendChild(btn);
   });
 
