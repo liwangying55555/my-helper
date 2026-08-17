@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Base64 编解码</title>
+  <link rel="stylesheet" href="../page.css" />
+</head>
+<body>
+  <div class="page_wrap">
+    <h1 class="page_title">Base64 编解码</h1>
+    <p class="page_desc">本地即时处理，数据不会上传</p>
+    <div class="tool_block">
+      <label class="field_label" for="input_text">输入</label>
+      <textarea class="field_area" id="input_text" placeholder="在此输入文本或 Base64 字符串"></textarea>
+      <div class="btn_row">
+        <button class="tool_btn" id="encode_btn" type="button">编码</button>
+        <button class="tool_btn" id="decode_btn" type="button">解码</button>
+        <button class="tool_btn tool_btn_ghost" id="clear_btn" type="button">清空</button>
+      </div>
+      <p class="tip_text" id="tip_text"></p>
+    </div>
+    <div class="tool_block">
+      <label class="field_label" for="output_text">输出</label>
+      <textarea class="field_area" id="output_text" readonly placeholder="结果将显示在这里"></textarea>
+      <div class="btn_row">
+        <button class="tool_btn tool_btn_ghost" id="copy_btn" type="button">复制结果</button>
+      </div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>

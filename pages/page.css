@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.page_wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px 32px;
+}
+
+.page_title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.page_desc {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tool_block {
+  padding: 16px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.field_label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.field_input,
+.field_area {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: Consolas, "Courier New", monospace;
+  line-height: 1.5;
+  resize: vertical;
+  background: #fff;
+}
+
+.field_area {
+  min-height: 140px;
+}
+
+.btn_row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tool_btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tool_btn:hover {
+  background: #1d4ed8;
+}
+
+.tool_btn_ghost {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.tool_btn_ghost:hover {
+  background: #cbd5e1;
+}
+
+.tip_text {
+  margin: 10px 0 0;
+  min-height: 18px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.tip_ok {
+  color: #059669;
+}
+
+.tip_err {
+  color: #dc2626;
+}
+
+.check_row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.check_row input {
+  width: 16px;
+  height: 16px;
+}

@@ -1,0 +1,267 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  background: #f5f7fb;
+}
+
+.json_page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tool_bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.bar_group {
+  display: inline-flex;
+  border: 1px solid #dbe3f0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.bar_btn {
+  padding: 6px 14px;
+  border: none;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bar_btn + .bar_btn {
+  border-left: 1px solid #dbe3f0;
+}
+
+.bar_btn:hover {
+  background: #f1f5f9;
+}
+
+.bar_btn.is_active,
+.bar_btn_primary.is_active {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.switch_item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch_item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch_ui {
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.switch_ui::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.switch_item input:checked + .switch_ui {
+  background: #3b82f6;
+}
+
+.switch_item input:checked + .switch_ui::after {
+  transform: translateX(16px);
+}
+
+.bar_spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+.bar_link {
+  padding: 4px 6px;
+  border: none;
+  background: transparent;
+  color: #334155;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bar_link:hover {
+  color: #2563eb;
+}
+
+.pane_wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  background: #fff;
+}
+
+.pane_wrap.layout_row {
+  flex-direction: row;
+}
+
+.pane_wrap.layout_col {
+  flex-direction: column;
+}
+
+.pane_box {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane_wrap.layout_row .pane_input {
+  border-right: 1px solid #e5e7eb;
+}
+
+.pane_wrap.layout_col .pane_input {
+  border-right: none;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pane_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px 6px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.status_tip {
+  font-size: 12px;
+}
+
+.status_ok {
+  color: #059669;
+}
+
+.status_err {
+  color: #dc2626;
+}
+
+.editor_box,
+.result_box {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+}
+
+.line_gutter {
+  margin: 0;
+  padding: 12px 8px 12px 12px;
+  min-width: 36px;
+  text-align: right;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: Consolas, "Courier New", monospace;
+  color: #94a3b8;
+  background: #f8fafc;
+  border-right: 1px solid #eef2f7;
+  overflow: hidden;
+  user-select: none;
+}
+
+.code_area {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: Consolas, "Courier New", monospace;
+  color: #0f172a;
+  background: #fff;
+}
+
+.result_area {
+  position: absolute;
+  inset: 0;
+}
+
+.empty_state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.empty_card {
+  width: min(420px, 100%);
+  padding: 28px 24px;
+  text-align: center;
+  border: 1px dashed #bfdbfe;
+  border-radius: 12px;
+  background: #eff6ff;
+}
+
+.json_badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.empty_title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.empty_desc {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+}

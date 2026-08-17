@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>面板设置</title>
+  <link rel="stylesheet" href="../page.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="page_wrap">
+    <h1 class="page_title">面板设置</h1>
+    <p class="page_desc">勾选后入口会置顶展示在插件面板，配置保存在本地</p>
+    <div class="tool_block">
+      <div class="entry_list" id="entry_list"></div>
+      <div class="btn_row">
+        <button class="tool_btn" id="save_btn" type="button">保存配置</button>
+        <button class="tool_btn tool_btn_ghost" id="reset_btn" type="button">恢复默认</button>
+      </div>
+      <p class="tip_text" id="tip_text"></p>
+    </div>
+  </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

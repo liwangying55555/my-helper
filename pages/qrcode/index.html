@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>二维码生成</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="qr_page">
+    <header class="tool_bar">
+      <div class="bar_group">
+        <button class="bar_btn bar_btn_primary is_active" type="button">二维码生成</button>
+      </div>
+      <div class="bar_spacer"></div>
+      <button class="bar_link" id="clear_btn" type="button">清空</button>
+      <span class="status_tip" id="status_tip"></span>
+    </header>
+
+    <main class="pane_wrap">
+      <section class="pane_box pane_input">
+        <div class="pane_head">文本内容</div>
+        <div class="editor_box">
+          <textarea
+            class="code_area"
+            id="input_text"
+            spellcheck="false"
+            placeholder="输入文本、链接等内容，右侧将即时生成二维码"
+          ></textarea>
+        </div>
+      </section>
+      <section class="pane_box pane_preview">
+        <div class="pane_head">二维码预览</div>
+        <div class="preview_box">
+          <div class="empty_state" id="empty_state">
+            <div class="empty_card">
+              <div class="qr_badge">QR</div>
+              <p class="empty_title">输入内容后即时生成</p>
+              <p class="empty_desc">支持文本、链接、短内容本地生成二维码</p>
+            </div>
+          </div>
+          <div class="qr_box" id="qr_box" hidden></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="qrcode_lib.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
