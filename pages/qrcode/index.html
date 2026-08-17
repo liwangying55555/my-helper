@@ -8,39 +8,33 @@
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <div class="tool_page">
+  <div class="tool_page qr_page">
     <div id="app_header" data_tool_id="qrcode"></div>
-    <header class="tool_bar">
-      <div class="bar_spacer"></div>
-      <button class="bar_link" id="clear_btn" type="button">清空</button>
-      <span class="status_tip" id="status_tip"></span>
-    </header>
 
-    <main class="pane_wrap">
-      <section class="pane_box pane_input">
-        <div class="pane_head">文本内容</div>
-        <div class="editor_box">
+    <main class="qr_main">
+      <div class="qr_panel">
+        <section class="qr_input_side">
+          <div class="qr_input_head">
+            <h2 class="qr_input_title">输入文字</h2>
+            <p class="qr_input_tip">即时输入即时生成</p>
+          </div>
           <textarea
-            class="code_area"
+            class="qr_input_area"
             id="input_text"
             spellcheck="false"
-            placeholder="输入文本、链接等内容，右侧将即时生成二维码"
+            maxlength="300"
+            placeholder="支持文本、网址和电子邮箱"
           ></textarea>
-        </div>
-      </section>
-      <section class="pane_box pane_preview">
-        <div class="pane_head">二维码预览</div>
-        <div class="preview_box">
-          <div class="empty_state" id="empty_state">
-            <div class="empty_card">
-              <div class="empty_badge">QR</div>
-              <p class="empty_title">输入内容后即时生成</p>
-              <p class="empty_desc">支持文本、链接、短内容本地生成二维码</p>
-            </div>
+          <p class="qr_input_count">已输入字数：<span id="char_count">0</span>/300</p>
+        </section>
+
+        <section class="qr_preview_side">
+          <div class="qr_preview_head">二维码预览</div>
+          <div class="qr_preview_body">
+            <div class="qr_box" id="qr_box"></div>
           </div>
-          <div class="qr_box" id="qr_box" hidden></div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   </div>
   <script src="../../shared/tool_list.js"></script>
