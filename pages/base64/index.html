@@ -5,110 +5,47 @@
   <title>Base64 编解码</title>
   <link rel="stylesheet" href="../../shared/page_header.css" />
   <link rel="stylesheet" href="../../shared/page_common.css" />
-  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
   <div class="tool_page">
     <div id="app_header" data_tool_id="base64"></div>
     <header class="tool_bar">
       <div class="bar_group">
-        <button class="bar_btn is_active" id="encode_btn" type="button">编码</button>
-        <button class="bar_btn" id="decode_btn" type="button">解码</button>
-        <button class="bar_btn" id="swap_btn" type="button">↕ 交换</button>
+        <button class="bar_btn is_active" id="decode_btn" type="button">解码</button>
+        <button class="bar_btn" id="encode_btn" type="button">编码</button>
       </div>
-      <label class="switch_item">
-        <input type="checkbox" id="auto_encode_switch" />
-        <span class="switch_ui"></span>
-        <span class="switch_text">自动编码</span>
-      </label>
-      <label class="switch_item">
-        <input type="checkbox" id="auto_decode_switch" />
-        <span class="switch_ui"></span>
-        <span class="switch_text">自动解码</span>
-      </label>
       <div class="bar_spacer"></div>
-      <button class="bar_link" id="setting_btn" type="button">高级设置</button>
       <button class="bar_link" id="clear_btn" type="button">清空</button>
       <button class="bar_link" id="copy_btn" type="button">复制结果</button>
-      <span class="status_tip" id="status_tip"></span>
     </header>
-
-    <aside class="setting_panel" id="setting_panel" hidden>
-      <div class="setting_row">
-        <span class="setting_label">解码输出</span>
-        <div class="radio_group" id="decode_format">
-          <label class="radio_item"><input type="radio" name="decode_format" value="text" checked /><span>文本</span></label>
-          <label class="radio_item"><input type="radio" name="decode_format" value="hex" /><span>Hex</span></label>
-          <label class="radio_item"><input type="radio" name="decode_format" value="uni" /><span>\u</span></label>
-          <label class="radio_item"><input type="radio" name="decode_format" value="html" /><span>&#</span></label>
-          <label class="radio_item"><input type="radio" name="decode_format" value="brace" /><span>{...}</span></label>
-        </div>
-        <label class="check_inline">
-          <input type="checkbox" id="decode_space" />
-          <span>非纯文本加空格</span>
-        </label>
-      </div>
-      <div class="setting_row">
-        <span class="setting_label">编码输入</span>
-        <div class="radio_group" id="encode_format">
-          <label class="radio_item"><input type="radio" name="encode_format" value="text" checked /><span>文本</span></label>
-          <label class="radio_item"><input type="radio" name="encode_format" value="hex" /><span>Hex</span></label>
-          <label class="radio_item"><input type="radio" name="encode_format" value="brace" /><span>{...}</span></label>
-        </div>
-      </div>
-      <div class="setting_row">
-        <span class="setting_label">编码输出</span>
-        <div class="radio_group" id="encode_out">
-          <label class="radio_item"><input type="radio" name="encode_out" value="plain" checked /><span>纯文本</span></label>
-          <label class="radio_item"><input type="radio" name="encode_out" value="url" /><span>URL 编码</span></label>
-        </div>
-      </div>
-      <div class="setting_row">
-        <span class="setting_label">符号替换</span>
-        <label class="check_inline">
-          <span>+</span>
-          <input class="tiny_input" id="replace_plus" type="text" placeholder="不替换" />
-        </label>
-        <label class="check_inline">
-          <span>/</span>
-          <input class="tiny_input" id="replace_slash" type="text" placeholder="不替换" />
-        </label>
-        <label class="check_inline">
-          <span>=</span>
-          <input class="tiny_input" id="replace_equal" type="text" placeholder="不替换" />
-        </label>
-        <label class="check_inline">
-          <input type="checkbox" id="replace_on_decode" />
-          <span>解码时也替换</span>
-        </label>
-      </div>
-      <p class="setting_hint">快捷键：Ctrl + Enter 执行当前操作（编码/解码）</p>
-    </aside>
 
     <main class="pane_wrap" id="pane_wrap">
       <section class="pane_box pane_input">
-        <div class="pane_head">请输入要进行 Base64 编码或解码的字符</div>
+        <div class="pane_head" id="input_head">解码文本</div>
         <div class="editor_box">
           <textarea
             class="code_area"
             id="input_text"
             spellcheck="false"
-            placeholder="在此输入原文或 Base64 字符串"
+            placeholder="粘贴要解码的 Base64"
           ></textarea>
         </div>
       </section>
       <section class="pane_box pane_output">
-        <div class="pane_head">Base64 编码或解码的结果</div>
+        <div class="pane_head" id="output_head">解码结果</div>
         <div class="editor_box">
           <textarea
             class="code_area"
             id="output_text"
             spellcheck="false"
-            placeholder="结果将显示在这里"
+            placeholder="原文将显示在这里"
           ></textarea>
         </div>
       </section>
     </main>
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
   </div>
   <script src="../../shared/tool_list.js"></script>
   <script src="../../shared/page_header.js"></script>
