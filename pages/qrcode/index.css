@@ -118,12 +118,6 @@
   padding: 12px 20px 24px;
 }
 
-.qr_preview_side .empty_card {
-  width: min(280px, 100%);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: #c7d2fe;
-}
-
 .qr_box {
   display: flex;
   align-items: center;

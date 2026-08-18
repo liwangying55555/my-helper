@@ -15,58 +15,83 @@
         <button class="bar_btn is_active" id="format_btn" type="button">格式化</button>
         <button class="bar_btn" id="minify_btn" type="button">压缩</button>
       </div>
-      <div class="bar_group">
-        <button class="bar_btn is_active" id="layout_row_btn" type="button">左右</button>
-        <button class="bar_btn" id="layout_col_btn" type="button">上下</button>
-      </div>
       <label class="switch_item">
         <input type="checkbox" id="lint_switch" checked />
         <span class="switch_ui"></span>
         <span class="switch_text">JSONLint</span>
       </label>
       <label class="switch_item">
-        <input type="checkbox" id="auto_decode_switch" />
+        <input type="checkbox" id="auto_decode_switch" checked />
         <span class="switch_ui"></span>
         <span class="switch_text">自动解码</span>
       </label>
       <label class="switch_item">
-        <input type="checkbox" id="node_edit_switch" />
+        <input type="checkbox" id="nest_switch" checked />
         <span class="switch_ui"></span>
-        <span class="switch_text">节点编辑</span>
+        <span class="switch_text">嵌套解析</span>
       </label>
-      <div class="bar_spacer"></div>
-      <button class="bar_link" id="nest_btn" type="button">嵌套解析</button>
-      <button class="bar_link" id="uni_encode_btn" type="button">Uni 编码</button>
-      <button class="bar_link" id="uni_decode_btn" type="button">Uni 解码</button>
-      <button class="bar_link" id="url_decode_btn" type="button">URL 解码</button>
     </header>
 
-    <main class="pane_wrap layout_row" id="pane_wrap">
+    <main class="pane_wrap">
       <section class="pane_box pane_input">
         <div class="pane_head">输入</div>
         <div class="editor_box">
           <pre class="line_gutter" id="line_gutter">1</pre>
           <textarea class="code_area" id="input_text" spellcheck="false" placeholder="在这里粘贴需要格式化的 JSON 代码"></textarea>
         </div>
-      </section>
-      <section class="pane_box pane_output">
-        <div class="pane_head">
-          <span>解析结果</span>
+        <div class="pane_foot">
           <span class="status_tip" id="status_tip"></span>
         </div>
-          <div class="result_box">
+      </section>
+      <section class="pane_box">
+        <div class="pane_head">
+          <span>解析结果</span>
+          <div class="result_tools">
+            <button class="head_btn" id="table_btn" type="button" disabled>表格</button>
+            <button class="head_btn" id="meta_btn" type="button">元数据</button>
+            <button class="head_btn" id="fold_btn" type="button">折叠</button>
+            <button class="head_btn" id="copy_all_btn" type="button">复制</button>
+          </div>
+        </div>
+        <div class="result_box">
           <div class="empty_state" id="empty_state">
             <div class="empty_card">
               <div class="empty_badge">JSON</div>
               <p class="empty_title">粘贴 JSON 后自动格式化</p>
-              <p class="empty_desc">支持 BigInt、JSONP、转义字符解析、嵌套解析</p>
+              <p class="empty_desc">支持标准 JSON、JS 对象字面量、单引号、无引号键、尾逗号、注释、BigInt、JSONP</p>
             </div>
           </div>
-          <textarea class="code_area result_area" id="output_text" spellcheck="false" readonly hidden></textarea>
+          <div class="json_tree" id="json_tree" hidden></div>
+          <pre class="minify_view" id="minify_view" hidden></pre>
         </div>
+        <div class="node_meta" id="node_meta" hidden></div>
       </section>
     </main>
   </div>
+
+  <div class="modal_mask" id="table_modal" hidden>
+    <div class="modal_card">
+      <div class="modal_head">
+        <div>
+          <h3 class="modal_title">表格视图</h3>
+        </div>
+        <button class="modal_close" id="table_close_btn" type="button" aria-label="关闭">×</button>
+      </div>
+      <p class="modal_info" id="table_info">来源: $　字段数 0</p>
+      <div class="modal_table_wrap">
+        <table class="flat_table">
+          <thead>
+            <tr>
+              <th>字段</th>
+              <th>值</th>
+            </tr>
+          </thead>
+          <tbody id="table_body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <script src="../../shared/tool_list.js"></script>
   <script src="../../shared/page_header.js"></script>
   <script src="index.js"></script>

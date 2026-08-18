@@ -6,7 +6,6 @@ var output_el = document.getElementById('output_text');
 var status_el = document.getElementById('status_tip');
 var encode_btn = document.getElementById('encode_btn');
 var decode_btn = document.getElementById('decode_btn');
-var pane_wrap = document.getElementById('pane_wrap');
 var last_action = 'encode';
 var auto_timer = null;
 
@@ -178,12 +177,6 @@ function do_swap() {
   set_status('已交换', true);
 }
 
-function apply_layout(type) {
-  pane_wrap.className = 'pane_wrap ' + (type === 'row' ? 'layout_row' : 'layout_col');
-  document.getElementById('layout_row_btn').classList.toggle('is_active', type === 'row');
-  document.getElementById('layout_col_btn').classList.toggle('is_active', type === 'col');
-}
-
 function schedule_auto() {
   clearTimeout(auto_timer);
   auto_timer = setTimeout(() => {
@@ -206,14 +199,6 @@ decode_btn.addEventListener('click', () => {
 });
 
 document.getElementById('swap_btn').addEventListener('click', do_swap);
-
-document.getElementById('layout_row_btn').addEventListener('click', () => {
-  apply_layout('row');
-});
-
-document.getElementById('layout_col_btn').addEventListener('click', () => {
-  apply_layout('col');
-});
 
 document.getElementById('auto_encode_switch').addEventListener('change', (e) => {
   if (e.target.checked) {
@@ -275,7 +260,6 @@ document.querySelectorAll('input[name="decode_format"], input[name="encode_forma
 });
 
 (function init() {
-  apply_layout('col');
   var params = new URLSearchParams(location.search);
   var text = params.get('text');
   var mode = params.get('mode');

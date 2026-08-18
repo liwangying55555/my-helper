@@ -20,7 +20,6 @@ function make_qr(text) {
     return;
   }
   last_text = text;
-  qr_box.hidden = false;
   qr_box.innerHTML = '';
   try {
     new QRCode(qr_box, {

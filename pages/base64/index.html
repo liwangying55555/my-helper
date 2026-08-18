@@ -16,10 +16,6 @@
         <button class="bar_btn" id="decode_btn" type="button">解码</button>
         <button class="bar_btn" id="swap_btn" type="button">↕ 交换</button>
       </div>
-      <div class="bar_group">
-        <button class="bar_btn is_active" id="layout_row_btn" type="button">左右</button>
-        <button class="bar_btn" id="layout_col_btn" type="button">上下</button>
-      </div>
       <label class="switch_item">
         <input type="checkbox" id="auto_encode_switch" />
         <span class="switch_ui"></span>
@@ -89,7 +85,7 @@
       <p class="setting_hint">快捷键：Ctrl + Enter 执行当前操作（编码/解码）</p>
     </aside>
 
-    <main class="pane_wrap layout_col" id="pane_wrap">
+    <main class="pane_wrap" id="pane_wrap">
       <section class="pane_box pane_input">
         <div class="pane_head">请输入要进行 Base64 编码或解码的字符</div>
         <div class="editor_box">
