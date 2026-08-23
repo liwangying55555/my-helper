@@ -298,13 +298,12 @@ function render_tree() {
     } else {
       toggle = '<span class="json_toggle_placeholder"></span>';
     }
-    var acts = '';
+    var acts = '<span class="line_acts">';
     if (line.path === selected_path && line.role !== 'close') {
-      acts = '<span class="line_acts">' +
-        '<button type="button" data_act="copy">复制</button>' +
-        '<button type="button" data_act="delete">删除</button>' +
-        '</span>';
+      acts += '<button type="button" data_act="copy">复制</button>' +
+        '<button type="button" data_act="delete">删除</button>';
     }
+    acts += '</span>';
     return '<div class="' + cls + '" data_path="' + escape_html(line.path) + '">' +
       toggle + '<span class="json_code">' + line.html + '</span>' + acts + '</div>';
   }).join('');
