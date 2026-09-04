@@ -50,14 +50,11 @@ function render_app_header(pins) {
     'app_nav_item app_nav_setting' + (current_id === 'setting' ? ' is_active' : '');
   setting_link.href = chrome.runtime.getURL('pages/setting/index.html');
   setting_link.title = '设置';
+  setting_link.setAttribute('aria-label', '设置');
 
   var setting_icon = create_tool_icon('setting');
   setting_icon.classList.add('tool_icon_sm');
   setting_link.appendChild(setting_icon);
-
-  var setting_title = document.createElement('span');
-  setting_title.textContent = '设置';
-  setting_link.appendChild(setting_title);
   nav.appendChild(setting_link);
 
   mount.className = 'app_header';

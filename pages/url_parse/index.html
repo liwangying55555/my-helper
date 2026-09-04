@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>链接解析</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
+  <link rel="stylesheet" href="../../shared/page_common.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="tool_page">
+    <div id="app_header" data_tool_id="url_parse"></div>
+    <header class="tool_bar">
+      <span class="bar_hint">粘贴即解析 · 自动解码 · 点击行复制</span>
+      <div class="bar_spacer"></div>
+      <button class="bar_link" id="clear_btn" type="button">清空</button>
+      <button class="bar_link" id="copy_all_btn" type="button">复制全部</button>
+    </header>
+
+    <div class="url_body">
+      <section class="url_input">
+        <label class="url_input_label" for="input_text">输入链接</label>
+        <textarea
+          class="url_input_area"
+          id="input_text"
+          rows="2"
+          spellcheck="false"
+          placeholder="粘贴完整网址，支持编码、Hash 路由、嵌套 query"
+        ></textarea>
+      </section>
+
+      <section class="url_result">
+        <div class="url_result_head">解析结果</div>
+        <div class="result_panel">
+          <div class="result_grid" id="result_box">
+            <div class="empty_state" id="empty_state">
+              <div class="empty_card">
+                <div class="empty_badge">URL</div>
+                <p class="empty_title">粘贴链接后自动解析</p>
+                <p class="empty_desc">拆分资源地址、Search / Hash 参数，多层 URL 解码，参数值可点选复制</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
+  </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
