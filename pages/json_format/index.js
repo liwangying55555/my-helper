@@ -393,16 +393,47 @@ function revive_big_int(text) {
 
 function try_auto_decode(text) {
   var cur = text.trim();
-  try {
-    cur = decodeURIComponent(cur.replace(/\+/g, ' '));
-  } catch (err) {}
-  cur = cur.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => {
-    return String.fromCharCode(parseInt(hex, 16));
-  });
-  cur = cur.replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) => {
-    return String.fromCharCode(parseInt(hex, 16));
-  });
+  // 仅 URI 解码；\u/\x 交给 JSON.parse，避免破坏 JSON.stringify 转义
+  if (/%[0-9a-fA-F]{2}/.test(cur)) {
+    try {
+      cur = decodeURIComponent(cur.replace(/\+/g, ' '));
+    } catch (err) {}
+  }
   return cur;
+}
+
+/** 解包多层 JSON.stringify 结果（如 "\"{...}\"" / "{\"a\":1}"） */
+function unwrap_json(data) {
+  var guard = 0;
+  while (typeof data === 'string' && guard < 6) {
+    var trim = data.trim();
+    if (!trim) {
+      break;
+    }
+    var look_obj = trim.charAt(0) === '{' && trim.charAt(trim.length - 1) === '}';
+    var look_arr = trim.charAt(0) === '[' && trim.charAt(trim.length - 1) === ']';
+    var look_str = trim.charAt(0) === '"' && trim.charAt(trim.length - 1) === '"';
+    if (!look_obj && !look_arr && !look_str) {
+      break;
+    }
+    try {
+      var next = JSON.parse(trim);
+      if (typeof next === 'object' && next !== null) {
+        data = next;
+        guard++;
+        continue;
+      }
+      if (typeof next === 'string' && look_str) {
+        data = next;
+        guard++;
+        continue;
+      }
+      break;
+    } catch (err) {
+      break;
+    }
+  }
+  return data;
 }
 
 /** 将宽松 JSON / JS 对象字面量转为标准 JSON 文本 */
@@ -541,12 +572,18 @@ function prepare_text(text) {
 }
 
 function parse_value(text) {
+  var trimmed = text.trim();
+  // 优先直接解析，完整兼容 JSON.stringify 标准输出
+  try {
+    return unwrap_json(JSON.parse(trimmed));
+  } catch (err0) {}
+
   var raw = prepare_text(text);
   try {
-    return JSON.parse(raw);
+    return unwrap_json(JSON.parse(raw));
   } catch (err1) {
     try {
-      return JSON.parse(loose_to_json(raw));
+      return unwrap_json(JSON.parse(loose_to_json(raw)));
     } catch (err2) {
       // 最后兜底：按 JS 对象字面量解析
       if (!/^[\[{]/.test(raw)) {
@@ -555,7 +592,7 @@ function parse_value(text) {
       try {
         var data = new Function('return (' + raw + ')')();
         // 经 stringify 再 parse，去掉函数等不可序列化内容
-        return JSON.parse(JSON.stringify(data));
+        return unwrap_json(JSON.parse(JSON.stringify(data)));
       } catch (err3) {
         throw err1;
       }
@@ -566,14 +603,21 @@ function parse_value(text) {
 function nest_parse(value) {
   if (typeof value === 'string') {
     var trim = value.trim();
-    if (
-      (trim.startsWith('{') && trim.endsWith('}')) ||
-      (trim.startsWith('[') && trim.endsWith(']'))
-    ) {
+    if (!trim) {
+      return value;
+    }
+    var look_obj = trim.charAt(0) === '{' && trim.charAt(trim.length - 1) === '}';
+    var look_arr = trim.charAt(0) === '[' && trim.charAt(trim.length - 1) === ']';
+    var look_str = trim.charAt(0) === '"' && trim.charAt(trim.length - 1) === '"';
+    if (look_obj || look_arr || look_str) {
       try {
-        return nest_parse(parse_value(trim));
+        return nest_parse(unwrap_json(JSON.parse(trim)));
       } catch (err) {
-        return value;
+        try {
+          return nest_parse(parse_value(trim));
+        } catch (err2) {
+          return value;
+        }
       }
     }
     return value;

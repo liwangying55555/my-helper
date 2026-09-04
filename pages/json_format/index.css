@@ -118,7 +118,12 @@
   cursor: pointer;
 }
 
-.json_line.is_on {
+.json_line:hover {
+  background: #fef9c3;
+}
+
+.json_line.is_on,
+.json_line.is_on:hover {
   background: #fef08a;
 }
 
@@ -153,6 +158,17 @@
   color: #0f172a;
 }
 
+.json_index {
+  color: #7c3aed;
+}
+
+.json_line:hover .json_key,
+.json_line:hover .json_index {
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-radius: 2px;
+}
+
 .json_str {
   color: #15803d;
 }
@@ -168,10 +184,6 @@
 
 .json_mark {
   color: #64748b;
-}
-
-.json_index {
-  color: #7c3aed;
 }
 
 .json_meta,
