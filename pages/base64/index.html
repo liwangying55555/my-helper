@@ -5,6 +5,7 @@
   <title>Base64 编解码</title>
   <link rel="stylesheet" href="../../shared/page_header.css" />
   <link rel="stylesheet" href="../../shared/page_common.css" />
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
   <div class="tool_page">
@@ -14,35 +15,12 @@
         <button class="bar_btn is_active" id="decode_btn" type="button">解码</button>
         <button class="bar_btn" id="encode_btn" type="button">编码</button>
       </div>
+      <button class="bar_btn" id="split_btn" type="button">分栏</button>
       <div class="bar_spacer"></div>
       <button class="bar_link" id="clear_btn" type="button">清空</button>
-      <button class="bar_link" id="copy_btn" type="button">复制结果</button>
     </header>
 
-    <main class="pane_wrap" id="pane_wrap">
-      <section class="pane_box pane_input">
-        <div class="pane_head" id="input_head">解码文本</div>
-        <div class="editor_box">
-          <textarea
-            class="code_area"
-            id="input_text"
-            spellcheck="false"
-            placeholder="粘贴要解码的 Base64"
-          ></textarea>
-        </div>
-      </section>
-      <section class="pane_box pane_output">
-        <div class="pane_head" id="output_head">解码结果</div>
-        <div class="editor_box">
-          <textarea
-            class="code_area"
-            id="output_text"
-            spellcheck="false"
-            placeholder="原文将显示在这里"
-          ></textarea>
-        </div>
-      </section>
-    </main>
+    <div class="base_stack" id="base_stack"></div>
     <div class="pane_foot">
       <span class="status_tip" id="status_tip"></span>
     </div>

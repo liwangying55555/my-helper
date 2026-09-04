@@ -1,0 +1,36 @@
+.base_stack {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-page);
+}
+
+.base_module {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-panel);
+}
+
+.base_stack.is_split .base_module + .base_module {
+  border-top: 1px solid var(--color-line);
+}
+
+.base_module .pane_wrap {
+  flex: 1;
+  min-height: 0;
+}
+
+#split_btn {
+  border: 1px solid var(--color-line-strong);
+  border-radius: 6px;
+}
+
+#split_btn:disabled {
+  color: #94a3b8;
+  background: var(--color-soft);
+  border-color: var(--color-line);
+  cursor: not-allowed;
+}
