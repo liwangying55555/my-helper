@@ -1,43 +1,45 @@
-# My Helper — Chrome 插件
+# My Helper
 
-本地即时安装可用的浏览器助手，当前为可扩展的基础架构。
+本地即时可用的 Chrome 助手扩展（Manifest V3），聚合常用前端小工具，配置仅存本地。
 
-## 目录结构
+## 初衷
+
+项目数据有些总是带一点涉密性，但是目前线上的工具，广告太多了，总担心会有后门存在，存在数据泄露。因此才有这个小工具的诞生，其实也是一个新的造轮子的过程，但是好处是：放心、安心、好用。
+
+## 功能
+
+| 工具 | 说明 |
+| ------ | ------ |
+| JSON 格式化 | 格式化 / 压缩，树形折叠，表格与元数据视图 |
+| Base64 | 编解码，支持上下分栏（最多 4 栏） |
+| 链接解析 | 解析 origin、pathname、Search / Hash（兼容 Vue Hash 路由） |
+| 二维码 | 文本即时生成二维码 |
+| 设置 | 工具排序、面板置顶入口 |
+
+## 安装
+
+1. 打开 `chrome://extensions/`，开启「开发者模式」
+2. 「加载已解压的扩展程序」→ 选择本项目根目录
+
+## 目录
 
 ```
 my-helper/
-├── manifest.json              # Manifest V3 配置
-├── background/
-│   └── service_worker.js      # 后台脚本：安装、消息中转
-├── popup/
-│   ├── popup.html             # 工具栏弹窗
-│   ├── popup.js
-│   └── popup.css
-├── content/
-│   ├── content.js             # 页面注入脚本
-│   └── content.css
+├── manifest.json
+├── background/          # Service Worker，初始化本地配置
+├── popup/               # 工具栏弹窗
+├── pages/               # 各工具页与设置页
+│   ├── json_format/
+│   ├── base64/
+│   ├── url_parse/
+│   ├── qrcode/
+│   └── setting/
+├── shared/              # 工具清单、顶栏、公共样式
 └── icons/
-    ├── icon16.png
-    ├── icon48.png
-    └── icon128.png
 ```
 
-## 本地安装
+## 维护
 
-1. 打开 Chrome，地址栏进入 `chrome://extensions/`
-2. 打开右上角「开发者模式」
-3. 点击「加载已解压的扩展程序」
-4. 选择本项目根目录 `my-helper`
-5. 安装后点击工具栏图标，可看到状态与「连通测试」
-
-修改代码后，在扩展管理页点击该插件的「刷新」即可生效。
-
-## 架构说明
-
-| 模块 | 职责 |
-|------|------|
-| `background` | Service Worker，统一消息入口（`ping` / `get_status`） |
-| `popup` | 工具栏弹窗，展示状态并与后台通信 |
-| `content` | 注入页面，预留页面侧消息与样式 |
-
-后续功能按消息 `type` 在 `service_worker.js` 中扩展即可。
+- 版本号：`manifest.json` → `version`
+- 权限：仅 `storage`，用于面板置顶与排序
+- 新增工具：在 `shared/tool_list.js` 注册，并在 `pages/` 下增加对应页面
