@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "My Helper",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "本地即时可用的浏览器助手插件",
   "action": {
     "default_popup": "popup/popup.html",
