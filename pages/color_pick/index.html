@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8" />
   <title>图片取色</title>
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="../../shared/page_common.css" />
   <link rel="stylesheet" href="index.css" />
 </head>
+
 <body>
   <div class="tool_page">
     <div id="app_header" data_tool_id="color_pick"></div>
@@ -26,9 +28,10 @@
         <input type="file" id="file_input" accept="image/*" hidden />
         <div class="upload_zone" id="upload_zone">
           <div class="upload_visual">
-            <svg class="upload_cloud" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="currentColor" d="M38.2 20.4A12 12 0 0 0 15.6 18 9.5 9.5 0 0 0 17 37h24a8.5 8.5 0 0 0 0-17 10.2 10.2 0 0 0-2.8.4z"/>
-              <path d="M24 16v14M18.5 21.5 24 16l5.5 5.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path fill="#fff"
+                d="M18.944 11.112C18.507 7.67 15.56 5 12 5C9.244 5 6.85 6.611 5.757 9.15C3.609 9.792 2 11.82 2 14c0 2.757 2.243 5 5 5h11c2.206 0 4-1.794 4-4a4.01 4.01 0 0 0-3.056-3.888M13 14v3h-2v-3H8l4-5l4 5z" />
             </svg>
           </div>
           <p class="upload_title">点击或拖拽图片到此处</p>
@@ -72,4 +75,5 @@
   <script src="../../shared/page_header.js"></script>
   <script src="index.js"></script>
 </body>
+
 </html>
