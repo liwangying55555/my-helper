@@ -1,9 +1,15 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .popup_wrap {
   position: relative;
-  width: 220px;
+  width: 280px;
   padding: 14px 14px 40px;
   margin: 0;
-  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   color: #1f2937;
   background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
 }
@@ -27,12 +33,12 @@
 
 .menu_list {
   display: flex;
-  flex-direction: column;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .menu_item {
-  width: 100%;
+  width: calc(50% - 4px);
   display: flex;
   align-items: center;
   gap: 10px;
