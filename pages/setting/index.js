@@ -164,3 +164,8 @@ document.getElementById('reset_btn').addEventListener('click', () => {
   render_entries(order, order);
   save_config(order, order.slice(), '已恢复默认并保存');
 });
+
+(function show_version() {
+  var version = chrome.runtime.getManifest().version;
+  document.getElementById('version_text').textContent = '版本 ' + version;
+})();

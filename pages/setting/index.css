@@ -142,3 +142,10 @@ body {
   width: 16px;
   height: 16px;
 }
+
+.version_text {
+  margin: 28px 0 8px;
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+}
