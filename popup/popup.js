@@ -41,6 +41,26 @@ chrome.storage.local.get([PANEL_PINS_KEY], (data) => {
   render_menu(normalize_pins(data[PANEL_PINS_KEY]));
 });
 
+document.getElementById('page_pick_btn').addEventListener('click', () => {
+  var btn = document.getElementById('page_pick_btn');
+  if (btn.classList.contains('is_busy')) {
+    return;
+  }
+  btn.classList.add('is_busy');
+  chrome.runtime.sendMessage({ type: 'color_pick_open' }, (res) => {
+    btn.classList.remove('is_busy');
+    if (chrome.runtime.lastError) {
+      alert(chrome.runtime.lastError.message || '启动取色失败');
+      return;
+    }
+    if (!res || !res.ok) {
+      alert((res && res.error) || '启动取色失败');
+      return;
+    }
+    window.close();
+  });
+});
+
 document.getElementById('setting_btn').addEventListener('click', () => {
   open_page('pages/setting/index.html');
 });

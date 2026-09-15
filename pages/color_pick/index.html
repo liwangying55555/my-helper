@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>图片取色</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
+  <link rel="stylesheet" href="../../shared/page_common.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="tool_page">
+    <div id="app_header" data_tool_id="color_pick"></div>
+    <header class="tool_bar">
+      <label class="switch_item">
+        <input type="checkbox" id="loop_switch" />
+        <span class="switch_ui"></span>
+        <span class="switch_text">连续取色</span>
+      </label>
+      <button class="bar_link" id="reupload_btn" type="button" hidden>更换图片</button>
+      <div class="bar_spacer"></div>
+      <span class="bar_hint">快捷键 C 复制 · Esc 退出连续</span>
+    </header>
+
+    <main class="color_main">
+      <section class="color_panel" id="color_panel">
+        <input type="file" id="file_input" accept="image/*" hidden />
+        <div class="upload_zone" id="upload_zone">
+          <div class="upload_visual">
+            <svg class="upload_cloud" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="currentColor" d="M38.2 20.4A12 12 0 0 0 15.6 18 9.5 9.5 0 0 0 17 37h24a8.5 8.5 0 0 0 0-17 10.2 10.2 0 0 0-2.8.4z"/>
+              <path d="M24 16v14M18.5 21.5 24 16l5.5 5.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="upload_title">点击或拖拽图片到此处</p>
+          <p class="upload_desc">支持 PNG、JPG、WebP、GIF</p>
+          <span class="upload_btn">选择图片</span>
+        </div>
+        <div class="canvas_wrap" id="canvas_wrap" hidden>
+          <canvas id="pick_canvas"></canvas>
+          <div class="loupe" id="loupe" hidden>
+            <div class="loupe_view">
+              <canvas id="loupe_canvas" width="11" height="11"></canvas>
+              <span class="loupe_cross"></span>
+            </div>
+            <span class="loupe_hex" id="loupe_hex">#000000</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side_box">
+        <div class="pick_card" id="pick_card" hidden>
+          <div class="color_swatch" id="image_swatch"></div>
+          <div class="color_meta">
+            <p class="color_hex" id="image_hex">请选择颜色</p>
+            <p class="color_rgb" id="image_rgb">请选择颜色</p>
+          </div>
+        </div>
+        <div class="history_box">
+          <div class="history_head">
+            <span>最近取色</span>
+            <button class="bar_link" id="clear_hist_btn" type="button">清空</button>
+          </div>
+          <ul class="history_list" id="history_list"></ul>
+        </div>
+      </aside>
+    </main>
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
+  </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
