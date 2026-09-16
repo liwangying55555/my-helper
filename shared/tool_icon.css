@@ -11,9 +11,12 @@
 }
 
 .tool_icon svg {
+  display: block;
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
   fill: currentColor;
+  overflow: visible;
 }
 
 .tool_icon_sm {
@@ -23,6 +26,6 @@
 }
 
 .tool_icon_sm svg {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
 }

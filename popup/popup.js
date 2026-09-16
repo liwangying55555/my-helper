@@ -1,9 +1,28 @@
 /**
- * 弹窗：按本地配置渲染置顶入口，并打开设置窗
+ * 弹窗：工具类入口 + 页面类操作
  */
 function open_page(page_path) {
   chrome.tabs.create({
     url: chrome.runtime.getURL(page_path)
+  });
+}
+
+function run_page_action(btn, type, fail_text) {
+  if (btn.classList.contains('is_busy')) {
+    return;
+  }
+  btn.classList.add('is_busy');
+  chrome.runtime.sendMessage({ type: type }, (res) => {
+    btn.classList.remove('is_busy');
+    if (chrome.runtime.lastError) {
+      alert(chrome.runtime.lastError.message || fail_text);
+      return;
+    }
+    if (!res || !res.ok) {
+      alert((res && res.error) || fail_text);
+      return;
+    }
+    window.close();
   });
 }
 
@@ -15,7 +34,8 @@ function render_menu(pins) {
   list.innerHTML = '';
   pin_ids.forEach((id) => {
     var tool = TOOL_LIST.find((item) => item.id === id);
-    if (!tool) {
+    // 页面类不进工具网格
+    if (!tool || tool.kind === 'page') {
       return;
     }
     var btn = document.createElement('button');
@@ -42,23 +62,19 @@ chrome.storage.local.get([PANEL_PINS_KEY], (data) => {
 });
 
 document.getElementById('page_pick_btn').addEventListener('click', () => {
-  var btn = document.getElementById('page_pick_btn');
-  if (btn.classList.contains('is_busy')) {
-    return;
-  }
-  btn.classList.add('is_busy');
-  chrome.runtime.sendMessage({ type: 'color_pick_open' }, (res) => {
-    btn.classList.remove('is_busy');
-    if (chrome.runtime.lastError) {
-      alert(chrome.runtime.lastError.message || '启动取色失败');
-      return;
-    }
-    if (!res || !res.ok) {
-      alert((res && res.error) || '启动取色失败');
-      return;
-    }
-    window.close();
-  });
+  run_page_action(
+    document.getElementById('page_pick_btn'),
+    'color_pick_open',
+    '启动取色失败'
+  );
+});
+
+document.getElementById('full_shot_btn').addEventListener('click', () => {
+  run_page_action(
+    document.getElementById('full_shot_btn'),
+    'full_shot_open',
+    '整页截图失败'
+  );
 });
 
 document.getElementById('setting_btn').addEventListener('click', () => {

@@ -14,6 +14,7 @@
 | Base64 | 编解码，支持上下分栏（最多 4 栏） |
 | 链接解析 | 解析 origin、pathname、Search / Hash（兼容 Vue Hash 路由） |
 | 取色 | 面板一键网页截屏取色；工具页图片点选，连续取色 / 放大镜 / 历史 |
+| 整页截图 | 页面类入口：内层滚动 / 懒加载等待 / JPG 输出；超长页拆多图；结果页 Ctrl/⌘+S 保存 |
 | 二维码 | 文本即时生成二维码 |
 | 设置 | 工具排序、面板置顶入口 |
 
@@ -29,12 +30,13 @@ my-helper/
 ├── manifest.json
 ├── background/          # Service Worker，初始化本地配置
 ├── popup/               # 工具栏弹窗（含网页取色入口）
-├── content/             # 网页取色悬浮层
+├── content/             # 网页取色 / 整页截图注入脚本
 ├── pages/               # 各工具页与设置页
 │   ├── json_format/
 │   ├── base64/
 │   ├── url_parse/
 │   ├── color_pick/      # 图片取色
+│   ├── full_shot/       # 整页截图结果
 │   ├── qrcode/
 │   └── setting/
 ├── shared/              # 工具清单、顶栏、公共样式
@@ -44,5 +46,5 @@ my-helper/
 ## 维护
 
 - 版本号：`manifest.json` → `version`
-- 权限：`storage`（配置/历史）、`activeTab` + `scripting`（网页取色）
+- 权限：`storage`（配置/历史）、`activeTab` + `scripting`（网页取色 / 整页截图）
 - 新增工具：在 `shared/tool_list.js` 注册，并在 `pages/` 下增加对应页面

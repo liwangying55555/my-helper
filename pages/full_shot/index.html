@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>整页截图</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
+  <link rel="stylesheet" href="../../shared/page_common.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <div class="tool_page">
+    <div id="app_header" data_tool_id="full_shot"></div>
+    <header class="tool_bar">
+      <button class="bar_btn" id="open_btn" type="button" disabled>新标签打开</button>
+      <button class="bar_btn" id="copy_btn" type="button" disabled>复制图片</button>
+      <button class="bar_btn" id="download_btn" type="button" disabled>下载整图</button>
+      <div class="bar_spacer"></div>
+      <span class="bar_hint" id="shot_meta">在扩展面板点击「整页截图」开始</span>
+    </header>
+    <main class="shot_main">
+      <div class="shot_empty" id="shot_empty">
+        <p class="shot_empty_title">暂无截图</p>
+        <p class="shot_empty_desc">打开目标网页后，在扩展面板点击「整页截图」</p>
+      </div>
+      <div class="shot_stage" id="shot_stage" hidden></div>
+      <div class="shot_loading" id="shot_loading" hidden>
+        <span class="shot_spin"></span>
+        <span id="loading_text">正在拼接截图…</span>
+      </div>
+    </main>
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
+  </div>
+  <script src="../../shared/tool_list.js"></script>
+  <script src="../../shared/page_header.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+.shot_main {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: auto;
+  padding: 16px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.05), transparent 40%),
+    repeating-conic-gradient(#e8edf3 0% 25%, #f4f7fb 0% 50%) 50% / 18px 18px;
+}
+
+.shot_main > [hidden] {
+  display: none !important;
+}
+
+.shot_empty {
+  min-height: calc(100% - 4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 20px;
+  border: 1px dashed #c5d0e0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.shot_empty_title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.shot_empty_desc {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.shot_stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.shot_card {
+  position: relative;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.shot_card.is_active .shot_img {
+  border-color: #3b82f6;
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.18);
+}
+
+.shot_part_tag {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #f8fafc;
+  font-size: 12px;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.shot_img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.shot_loading {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(241, 245, 249, 0.88);
+  color: #334155;
+  font-size: 14px;
+  backdrop-filter: blur(2px);
+}
+
+.shot_spin {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #cbd5e1;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: shot_spin 0.8s linear infinite;
+}
+
+@keyframes shot_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
