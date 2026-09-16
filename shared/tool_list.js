@@ -1,8 +1,12 @@
 /**
  * 工具入口清单（面板 / 设置 / 顶栏共用）
+ * kind 缺省：页面功能（打开本地页）
+ * kind === 'action'：工具（作用于当前网页）
  */
 var PANEL_PINS_KEY = 'panel_pins';
+var ACTION_PINS_KEY = 'action_pins';
 var TOOL_ORDER_KEY = 'tool_order';
+var ACTION_ORDER_KEY = 'action_order';
 
 var TOOL_ICONS = {
   json_format:
@@ -15,6 +19,8 @@ var TOOL_ICONS = {
     '<path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v2h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>',
   color_pick:
     '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zM6.5 12c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5 11 5.67 11 6.5 10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5 16 5.67 16 6.5 15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9 19 9.67 19 10.5 18.33 12 17.5 12z"/>',
+  web_color:
+    '<path d="M20.71 5.63l-2.34-2.34a1 1 0 0 0-1.41 0l-3.12 3.12-1.23-1.21-1.42 1.42 1.23 1.21L5.05 15.2a3 3 0 0 0-.73 1.28l-.84 3.36a1 1 0 0 0 1.21 1.21l3.36-.84a3 3 0 0 0 1.28-.73l7.37-7.37 1.21 1.23 1.42-1.42-1.21-1.23 3.12-3.12a1 1 0 0 0 0-1.41zM8.7 16.29l-1.58.4.4-1.58 6.66-6.66 1.18 1.18-6.66 6.66z"/>',
   full_shot:
     '<path d="M4 4h6v2H6v4H4V4zm10 0h6v6h-2V6h-4V4zM4 14h2v4h4v2H4v-6zm14 0h2v6h-6v-2h4v-4zM8 8h8v8H8V8z"/>',
   setting:
@@ -48,48 +54,99 @@ var TOOL_LIST = [
     page: 'pages/color_pick/index.html'
   },
   {
+    id: 'web_color',
+    title: '网页取色',
+    kind: 'action',
+    action: 'color_pick_open'
+  },
+  {
     id: 'full_shot',
     title: '整页截图',
+    kind: 'action',
+    action: 'full_shot_open',
     page: 'pages/full_shot/index.html',
-    // 页面类：面板底部固定入口，不进工具网格 / 顶栏
-    kind: 'page',
     hide_header: true
   }
 ];
 
-var DEFAULT_PINS = TOOL_LIST.filter((item) => item.kind !== 'page').map((item) => item.id);
+var DEFAULT_PINS = TOOL_LIST.filter(function (item) {
+  return item.kind !== 'action';
+}).map(function (item) {
+  return item.id;
+});
 
-/** 是否为可置顶的工具类入口 */
+var DEFAULT_ACTION_PINS = TOOL_LIST.filter(function (item) {
+  return item.kind === 'action';
+}).map(function (item) {
+  return item.id;
+});
+
+/** 页面功能：打开本地工具页 */
 function is_panel_tool(tool) {
-  return !!(tool && tool.kind !== 'page');
+  return !!(tool && tool.kind !== 'action');
 }
 
-/** 过滤已失效的置顶 id，并保持传入顺序 */
-function normalize_pins(pins) {
-  var valid_ids = TOOL_LIST.filter(is_panel_tool).map((item) => item.id);
-  if (!Array.isArray(pins)) {
-    return DEFAULT_PINS.slice();
+/** 工具：作用于当前网页 */
+function is_page_action(tool) {
+  return !!(tool && tool.kind === 'action');
+}
+
+function normalize_id_list(list, valid_ids, fallback) {
+  if (!Array.isArray(list)) {
+    return fallback.slice();
   }
-  return pins.filter((id) => valid_ids.indexOf(id) !== -1);
+  return list.filter(function (id) {
+    return valid_ids.indexOf(id) !== -1;
+  });
 }
 
-/** 校正模块顺序，补齐新增模块（仅工具类） */
-function normalize_order(order) {
-  var all_ids = TOOL_LIST.filter(is_panel_tool).map((item) => item.id);
+function normalize_order_list(order, all_ids) {
   var result = [];
   if (Array.isArray(order)) {
-    order.forEach((id) => {
+    order.forEach(function (id) {
       if (all_ids.indexOf(id) !== -1 && result.indexOf(id) === -1) {
         result.push(id);
       }
     });
   }
-  all_ids.forEach((id) => {
+  all_ids.forEach(function (id) {
     if (result.indexOf(id) === -1) {
       result.push(id);
     }
   });
   return result;
+}
+
+/** 过滤已失效的页面置顶 id */
+function normalize_pins(pins) {
+  var valid_ids = TOOL_LIST.filter(is_panel_tool).map(function (item) {
+    return item.id;
+  });
+  return normalize_id_list(pins, valid_ids, DEFAULT_PINS);
+}
+
+/** 过滤已失效的工具置顶 id */
+function normalize_action_pins(pins) {
+  var valid_ids = TOOL_LIST.filter(is_page_action).map(function (item) {
+    return item.id;
+  });
+  return normalize_id_list(pins, valid_ids, DEFAULT_ACTION_PINS);
+}
+
+/** 校正页面功能顺序 */
+function normalize_order(order) {
+  var all_ids = TOOL_LIST.filter(is_panel_tool).map(function (item) {
+    return item.id;
+  });
+  return normalize_order_list(order, all_ids);
+}
+
+/** 校正工具顺序 */
+function normalize_action_order(order) {
+  var all_ids = TOOL_LIST.filter(is_page_action).map(function (item) {
+    return item.id;
+  });
+  return normalize_order_list(order, all_ids);
 }
 
 /** 生成工具图标节点 */

@@ -15,14 +15,21 @@ var STITCH_OVERLAP = 72;
 var RESULT_PATH = 'pages/full_shot/index.html';
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get([PANEL_PINS_KEY, TOOL_ORDER_KEY], (exist) => {
-    var data = {};
-    data[PANEL_PINS_KEY] = Array.isArray(exist[PANEL_PINS_KEY])
-      ? normalize_pins(exist[PANEL_PINS_KEY])
-      : DEFAULT_PINS.slice();
-    data[TOOL_ORDER_KEY] = normalize_order(exist[TOOL_ORDER_KEY]);
-    chrome.storage.local.set(data);
-  });
+  chrome.storage.local.get(
+    [PANEL_PINS_KEY, TOOL_ORDER_KEY, ACTION_PINS_KEY, ACTION_ORDER_KEY],
+    (exist) => {
+      var data = {};
+      data[PANEL_PINS_KEY] = Array.isArray(exist[PANEL_PINS_KEY])
+        ? normalize_pins(exist[PANEL_PINS_KEY])
+        : DEFAULT_PINS.slice();
+      data[TOOL_ORDER_KEY] = normalize_order(exist[TOOL_ORDER_KEY]);
+      data[ACTION_PINS_KEY] = Array.isArray(exist[ACTION_PINS_KEY])
+        ? normalize_action_pins(exist[ACTION_PINS_KEY])
+        : DEFAULT_ACTION_PINS.slice();
+      data[ACTION_ORDER_KEY] = normalize_action_order(exist[ACTION_ORDER_KEY]);
+      chrome.storage.local.set(data);
+    }
+  );
 });
 
 function sleep(ms) {

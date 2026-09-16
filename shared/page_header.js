@@ -27,7 +27,7 @@ function render_app_header(pins) {
   } else {
     pin_ids.forEach((id) => {
       var tool = TOOL_LIST.find((item) => item.id === id);
-      if (!tool || tool.hide_header) {
+      if (!tool || !is_panel_tool(tool) || tool.hide_header || !tool.page) {
         return;
       }
       var link = document.createElement('a');

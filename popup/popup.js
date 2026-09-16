@@ -1,5 +1,5 @@
 /**
- * 弹窗：工具类入口 + 页面类操作
+ * 弹窗：页面功能入口 + 网页工具
  */
 function open_page(page_path) {
   chrome.tabs.create({
@@ -12,7 +12,7 @@ function run_page_action(btn, type, fail_text) {
     return;
   }
   btn.classList.add('is_busy');
-  chrome.runtime.sendMessage({ type: type }, (res) => {
+  chrome.runtime.sendMessage({ type: type }, function (res) {
     btn.classList.remove('is_busy');
     if (chrome.runtime.lastError) {
       alert(chrome.runtime.lastError.message || fail_text);
@@ -32,12 +32,12 @@ function render_menu(pins) {
   var pin_ids = normalize_pins(pins);
 
   list.innerHTML = '';
-  pin_ids.forEach((id) => {
-    var tool = TOOL_LIST.find((item) => item.id === id);
-    // 页面类不进工具网格
-    if (!tool || tool.kind === 'page') {
-      return;
-    }
+  pin_ids.forEach(function (id) {
+    var tool = TOOL_LIST.find(function (item) {
+      return item.id === id;
+    });
+    if (!tool || !is_panel_tool(tool) || !tool.page) return;
+
     var btn = document.createElement('button');
     btn.className = 'menu_item';
     btn.type = 'button';
@@ -48,7 +48,7 @@ function render_menu(pins) {
 
     btn.appendChild(create_tool_icon(tool.id));
     btn.appendChild(title);
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function () {
       open_page(tool.page);
     });
     list.appendChild(btn);
@@ -57,26 +57,49 @@ function render_menu(pins) {
   empty_tip.hidden = list.children.length > 0;
 }
 
-chrome.storage.local.get([PANEL_PINS_KEY], (data) => {
-  render_menu(normalize_pins(data[PANEL_PINS_KEY]));
+function render_actions(pins) {
+  var wrap = document.getElementById('page_actions');
+  var empty = document.getElementById('action_empty');
+  var pin_ids = normalize_action_pins(pins);
+
+  wrap.innerHTML = '';
+  pin_ids.forEach(function (id) {
+    var tool = TOOL_LIST.find(function (item) {
+      return item.id === id;
+    });
+    if (!tool || !is_page_action(tool) || !tool.action) return;
+
+    var btn = document.createElement('button');
+    btn.className = 'page_action_btn';
+    btn.type = 'button';
+    btn.title = tool.title;
+
+    var icon = document.createElement('span');
+    icon.className = 'page_action_icon_wrap';
+    icon.innerHTML =
+      '<svg class="page_action_icon" viewBox="0 0 24 24" aria-hidden="true">' +
+      (TOOL_ICONS[tool.id] || '') +
+      '</svg>';
+
+    var text = document.createElement('span');
+    text.textContent = tool.title;
+
+    btn.appendChild(icon);
+    btn.appendChild(text);
+    btn.addEventListener('click', function () {
+      run_page_action(btn, tool.action, tool.title + '失败');
+    });
+    wrap.appendChild(btn);
+  });
+
+  empty.hidden = wrap.children.length > 0;
+}
+
+chrome.storage.local.get([PANEL_PINS_KEY, ACTION_PINS_KEY], function (data) {
+  render_menu(data[PANEL_PINS_KEY]);
+  render_actions(data[ACTION_PINS_KEY]);
 });
 
-document.getElementById('page_pick_btn').addEventListener('click', () => {
-  run_page_action(
-    document.getElementById('page_pick_btn'),
-    'color_pick_open',
-    '启动取色失败'
-  );
-});
-
-document.getElementById('full_shot_btn').addEventListener('click', () => {
-  run_page_action(
-    document.getElementById('full_shot_btn'),
-    'full_shot_open',
-    '整页截图失败'
-  );
-});
-
-document.getElementById('setting_btn').addEventListener('click', () => {
+document.getElementById('setting_btn').addEventListener('click', function () {
   open_page('pages/setting/index.html');
 });

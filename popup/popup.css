@@ -5,9 +5,8 @@ body {
 }
 
 .popup_wrap {
-  position: relative;
   width: 288px;
-  padding: 14px 14px 44px;
+  padding: 14px;
   margin: 0;
   font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   color: #1f2937;
@@ -18,15 +17,22 @@ body {
   margin-bottom: 12px;
 }
 
+.popup_title_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .popup_title {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 .popup_desc {
-  margin: 0;
+  margin: 4px 0 0;
   font-size: 12px;
   color: #64748b;
 }
@@ -67,7 +73,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 10px;
+  padding: 6px 10px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
@@ -102,11 +108,14 @@ body {
 
 .page_actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
 .page_action_btn {
-  flex: 1;
+  width: calc(33% - 4px);
+  flex: 0 0 calc(33% - 4px);
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -133,17 +142,21 @@ body {
   cursor: wait;
 }
 
+.page_action_icon_wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
 .page_action_icon {
   width: 14px;
   height: 14px;
   fill: currentColor;
   flex-shrink: 0;
+  display: block;
 }
 
 .setting_btn {
-  position: absolute;
-  right: 10px;
-  bottom: 8px;
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
   padding: 0;

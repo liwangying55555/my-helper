@@ -10,17 +10,83 @@
 <body>
   <div id="app_header" data_tool_id="setting"></div>
   <div class="page_wrap">
-    <h1 class="page_title">面板设置</h1>
-    <p class="page_desc">拖拽调整顺序，勾选后入口会置顶展示在插件面板，配置保存在本地</p>
-    <div class="tool_block">
-      <div class="entry_list" id="entry_list"></div>
-      <div class="btn_row">
-        <button class="tool_btn" id="save_btn" type="button">保存配置</button>
-        <button class="tool_btn tool_btn_ghost" id="reset_btn" type="button">恢复默认</button>
+    <div class="page_top">
+      <div class="page_head">
+        <div class="page_head_text">
+          <h1 class="page_title">面板设置</h1>
+          <p class="page_desc">左栏页面功能，右栏网页工具；可拖入置顶区，也可在置顶区内排序</p>
+        </div>
+        <div class="btn_row">
+          <button class="tool_btn" id="save_btn" type="button">保存配置</button>
+          <button class="tool_btn tool_btn_ghost" id="reset_btn" type="button">恢复默认</button>
+        </div>
       </div>
-      <p class="tip_text" id="tip_text"></p>
     </div>
-    <p class="version_text" id="version_text"></p>
+
+    <div class="config_board">
+      <section class="config_col" data_group="panel">
+        <div class="block_head">
+          <h2 class="block_title">页面功能</h2>
+          <p class="block_desc">弹窗「页面」区与顶栏</p>
+        </div>
+        <div class="col_body">
+          <div class="zone zone_pin">
+            <div class="zone_head">
+              <span class="zone_title">已置顶</span>
+              <span class="zone_count" data_role="pin_count">0</span>
+            </div>
+            <div class="zone_scroll">
+              <div class="entry_list" data_role="pin_list" data_zone="pin"></div>
+              <p class="zone_empty" data_role="pin_empty">拖入待选项到此处</p>
+            </div>
+          </div>
+          <div class="zone zone_rest">
+            <div class="zone_head">
+              <span class="zone_title">待选</span>
+              <span class="zone_count" data_role="rest_count">0</span>
+            </div>
+            <div class="zone_scroll">
+              <div class="entry_list" data_role="rest_list" data_zone="rest"></div>
+              <p class="zone_empty" data_role="rest_empty" hidden>已全部置顶</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="config_col" data_group="action">
+        <div class="block_head">
+          <h2 class="block_title">工具</h2>
+          <p class="block_desc">弹窗「工具」区，作用于当前网页</p>
+        </div>
+        <div class="col_body">
+          <div class="zone zone_pin">
+            <div class="zone_head">
+              <span class="zone_title">已置顶</span>
+              <span class="zone_count" data_role="pin_count">0</span>
+            </div>
+            <div class="zone_scroll">
+              <div class="entry_list" data_role="pin_list" data_zone="pin"></div>
+              <p class="zone_empty" data_role="pin_empty">拖入待选项到此处</p>
+            </div>
+          </div>
+          <div class="zone zone_rest">
+            <div class="zone_head">
+              <span class="zone_title">待选</span>
+              <span class="zone_count" data_role="rest_count">0</span>
+            </div>
+            <div class="zone_scroll">
+              <div class="entry_list" data_role="rest_list" data_zone="rest"></div>
+              <p class="zone_empty" data_role="rest_empty" hidden>已全部置顶</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="page_foot">
+      <p class="tip_text" id="tip_text"></p>
+      <p class="version_text" id="version_text"></p>
+    </div>
   </div>
   <script src="../../shared/tool_list.js"></script>
   <script src="../../shared/page_header.js"></script>
