@@ -160,3 +160,23 @@ function create_tool_icon(tool_id) {
     '</svg>';
   return wrap;
 }
+
+export {
+  PANEL_PINS_KEY,
+  ACTION_PINS_KEY,
+  TOOL_ORDER_KEY,
+  ACTION_ORDER_KEY,
+  TOOL_ICONS,
+  TOOL_LIST,
+  DEFAULT_PINS,
+  DEFAULT_ACTION_PINS,
+  is_panel_tool,
+  is_page_action,
+  normalize_id_list,
+  normalize_order_list,
+  normalize_pins,
+  normalize_action_pins,
+  normalize_order,
+  normalize_action_order,
+  create_tool_icon,
+};

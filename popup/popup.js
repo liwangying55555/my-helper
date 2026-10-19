@@ -1,6 +1,18 @@
 /**
  * 弹窗：页面功能入口 + 网页工具
  */
+import {
+  TOOL_LIST,
+  TOOL_ICONS,
+  PANEL_PINS_KEY,
+  ACTION_PINS_KEY,
+  normalize_pins,
+  normalize_action_pins,
+  is_panel_tool,
+  is_page_action,
+  create_tool_icon,
+} from '../shared/tool_list.js';
+
 function open_page(page_path) {
   chrome.tabs.create({
     url: chrome.runtime.getURL(page_path)

@@ -2,7 +2,18 @@
  * 后台：安装初始化 + 网页取色 + 整页截图
  * JPG 输出 / 超长页拆分 / 内层滚动裁剪
  */
-importScripts(chrome.runtime.getURL('shared/tool_list.js'));
+import {
+  PANEL_PINS_KEY,
+  TOOL_ORDER_KEY,
+  ACTION_PINS_KEY,
+  ACTION_ORDER_KEY,
+  normalize_pins,
+  normalize_order,
+  DEFAULT_PINS,
+  normalize_action_pins,
+  normalize_action_order,
+  DEFAULT_ACTION_PINS,
+} from '../shared/tool_list.js';
 
 var pending_full_shot = null;
 var full_shot_busy = false;

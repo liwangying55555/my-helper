@@ -1,7 +1,15 @@
 /**
  * 功能页顶栏：品牌 + 置顶功能快捷切换
  */
-function render_app_header(pins) {
+import {
+  TOOL_LIST,
+  normalize_pins,
+  is_panel_tool,
+  create_tool_icon,
+  PANEL_PINS_KEY,
+} from './tool_list.js'
+
+export function render_app_header(pins) {
   var mount = document.getElementById('app_header');
   if (!mount) {
     return;

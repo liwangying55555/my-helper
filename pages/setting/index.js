@@ -1,6 +1,24 @@
 /**
  * 面板设置：左页面 / 右工具；列内置顶+待选，支持拖入与排序
  */
+import {
+  TOOL_LIST,
+  is_page_action,
+  is_panel_tool,
+  create_tool_icon,
+  PANEL_PINS_KEY,
+  TOOL_ORDER_KEY,
+  ACTION_PINS_KEY,
+  ACTION_ORDER_KEY,
+  normalize_pins,
+  normalize_order,
+  normalize_action_pins,
+  normalize_action_order,
+  DEFAULT_PINS,
+  DEFAULT_ACTION_PINS,
+} from '../../shared/tool_list.js';
+import { render_app_header } from '../../shared/page_header.js';
+
 var groups = {};
 var drag_state = null;
 
