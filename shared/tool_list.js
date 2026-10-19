@@ -29,19 +29,14 @@ var TOOL_ICONS = {
 
 var TOOL_LIST = [
   {
-    id: 'json_format',
-    title: 'JSON格式化',
-    page: 'pages/json_format/index.html'
-  },
-  {
     id: 'base64',
     title: 'Base64',
     page: 'pages/base64/index.html'
   },
   {
-    id: 'qrcode',
-    title: '二维码',
-    page: 'pages/qrcode/index.html'
+    id: 'json_format',
+    title: 'JSON格式化',
+    page: 'pages/json_format/index.html'
   },
   {
     id: 'url_parse',
@@ -52,6 +47,11 @@ var TOOL_LIST = [
     id: 'color_pick',
     title: '图片取色',
     page: 'pages/color_pick/index.html'
+  },
+  {
+    id: 'qrcode',
+    title: '二维码',
+    page: 'pages/qrcode/index.html'
   },
   {
     id: 'web_color',
