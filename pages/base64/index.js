@@ -41,20 +41,62 @@ function text_from_bytes(bytes) {
 
 function bytes_to_base64(bytes) {
   var bin = '';
-  bytes.forEach((n) => {
-    bin += String.fromCharCode(n);
-  });
+  for (var i = 0; i < bytes.length; i++) {
+    bin += String.fromCharCode(bytes[i]);
+  }
   return btoa(bin);
 }
 
-function base64_to_bytes(text) {
-  var clean = text.replace(/\s/g, '');
-  var bin = atob(clean);
-  var bytes = new Uint8Array(bin.length);
-  for (var i = 0; i < bin.length; i++) {
-    bytes[i] = bin.charCodeAt(i);
+var B64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+var B64_LOOKUP = (function () {
+  var map = {};
+  for (var i = 0; i < B64_ALPHABET.length; i++) {
+    map[B64_ALPHABET.charAt(i)] = i;
   }
-  return bytes;
+  // 兼容 URL-safe 变体
+  map['-'] = 62;
+  map['_'] = 63;
+  return map;
+})();
+
+/**
+ * Base64 -> 字节数组
+ * 优化点：
+ *  1. 单次遍历 + 位缓冲完成解码，无 atob 中间字符串；
+ *  2. 自动忽略引号（半角 / 全角 / 弯引号）、空白、转义反斜杠、'=' 等
+ *     非 Base64 字符，因此 "SGVsbG8="、'SGVsbG8='、\"SGVsbG8\" 等
+ *     带引号字符串均可直接解析；
+ *  3. 兼容 URL-safe（- _）以及缺失 padding 的 Base64。
+ */
+function base64_to_bytes(text) {
+  var raw = String(text);
+  if (!raw) {
+    return new Uint8Array(0);
+  }
+
+  var bytes = new Uint8Array(Math.ceil((raw.length * 3) / 4));
+  var p = 0;
+  var bitBuffer = 0;
+  var bitCount = 0;
+  var validCount = 0;
+  for (var i = 0; i < raw.length; i++) {
+    var val = B64_LOOKUP[raw.charAt(i)];
+    if (val === undefined) {
+      // 跳过引号、空白、'='、反斜杠等非有效字符
+      continue;
+    }
+    validCount++;
+    bitBuffer = (bitBuffer << 6) | val;
+    bitCount += 6;
+    if (bitCount >= 8) {
+      bitCount -= 8;
+      bytes[p++] = (bitBuffer >> bitCount) & 0xff;
+    }
+  }
+  if (validCount === 0) {
+    throw new Error('未找到有效的 Base64 字符');
+  }
+  return bytes.subarray(0, p);
 }
 
 function create_panel() {
@@ -144,7 +186,9 @@ function run_panel(panel, silent) {
     panel.output.value = '';
     if (!silent) {
       set_status(
-        last_action === 'decode' ? '解码失败，请检查 Base64 格式' : '编码失败：' + err.message,
+        last_action === 'decode'
+          ? '解码失败：' + (err.message || '请检查 Base64 格式')
+          : '编码失败：' + err.message,
         false
       );
     }

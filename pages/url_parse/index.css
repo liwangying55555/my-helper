@@ -242,3 +242,153 @@
 .resource_val:hover {
   background: #eef4ff;
 }
+
+/* 右侧历史抽屉 */
+.hist_mask {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(15, 23, 42, 0.28);
+}
+
+.hist_mask[hidden] {
+  display: none !important;
+}
+
+.hist_drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  width: min(480px, 50vw);
+  height: 100%;
+  background: #fff;
+  border-left: 1px solid var(--color-line);
+  box-shadow: -12px 0 32px rgba(15, 23, 42, 0.12);
+  transform: translateX(100%);
+  transition: transform 0.22s ease;
+}
+
+.hist_drawer.is_open {
+  transform: translateX(0);
+}
+
+.hist_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-chrome);
+}
+
+.hist_title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.hist_head_actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hist_clear,
+.hist_close {
+  border: 1px solid var(--color-line-strong);
+  border-radius: 6px;
+  background: var(--color-panel);
+  color: #64748b;
+  cursor: pointer;
+}
+
+.hist_clear {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.hist_clear:hover {
+  border-color: #fca5a5;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.hist_close {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.hist_close:hover {
+  border-color: #93c5fd;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.hist_list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-page);
+}
+
+.hist_empty {
+  margin: auto 0;
+  padding: 24px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.hist_item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  background: var(--color-panel);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hist_item:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.hist_item_url {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text);
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hist_item_meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+@media (max-width: 720px) {
+  .hist_drawer {
+    width: min(100vw, 92vw);
+  }
+}

@@ -1,12 +1,21 @@
 /**
  * 链接解析：聚焦 Search / Hash（兼容 Vue Hash 路由）
  */
+var HIST_KEY = 'url_parse_history';
+var HIST_MAX = 40;
+
 var input_el = document.getElementById('input_text');
 var result_el = document.getElementById('result_box');
 var empty_el = document.getElementById('empty_state');
 var status_el = document.getElementById('status_tip');
+var hist_mask = document.getElementById('hist_mask');
+var hist_drawer = document.getElementById('hist_drawer');
+var hist_list = document.getElementById('hist_list');
 var auto_timer = null;
+var hist_timer = null;
 var last_result = null;
+var last_saved_url = '';
+var hist_cache = [];
 
 function set_status(text, is_ok) {
   status_el.textContent = text || '';
@@ -27,6 +36,119 @@ function escape_attr(text) {
 
 function copy_text(text) {
   return navigator.clipboard.writeText(text);
+}
+
+function format_time(ts) {
+  var d = new Date(ts);
+  var pad = function (n) {
+    return n < 10 ? '0' + n : '' + n;
+  };
+  return (
+    d.getFullYear() +
+    '-' +
+    pad(d.getMonth() + 1) +
+    '-' +
+    pad(d.getDate()) +
+    ' ' +
+    pad(d.getHours()) +
+    ':' +
+    pad(d.getMinutes())
+  );
+}
+
+function load_history(done) {
+  chrome.storage.local.get([HIST_KEY], function (data) {
+    hist_cache = Array.isArray(data[HIST_KEY]) ? data[HIST_KEY] : [];
+    if (typeof done === 'function') done(hist_cache);
+  });
+}
+
+function save_history(list, done) {
+  hist_cache = list.slice(0, HIST_MAX);
+  var data = {};
+  data[HIST_KEY] = hist_cache;
+  chrome.storage.local.set(data, function () {
+    if (typeof done === 'function') done();
+  });
+}
+
+/** 解析成功后延迟写入，避免输入过程刷屏 */
+function schedule_history(url, data) {
+  clearTimeout(hist_timer);
+  hist_timer = setTimeout(function () {
+    push_history(url, data);
+  }, 900);
+}
+
+function push_history(url, data) {
+  var text = String(url || '').trim();
+  if (!text || text === last_saved_url) return;
+  last_saved_url = text;
+  var search_n = Object.keys(data.search || {}).length;
+  var hash_n = Object.keys(data.hash_search || {}).length + (data.hash_path ? 1 : 0);
+  var item = {
+    url: text,
+    at: Date.now(),
+    tip: 'Search ' + search_n + ' · Hash ' + hash_n
+  };
+  var next = hist_cache.filter(function (row) {
+    return row && row.url !== text;
+  });
+  next.unshift(item);
+  save_history(next);
+}
+
+function render_history() {
+  if (!hist_cache.length) {
+    hist_list.innerHTML =
+      '<div class="hist_empty">暂无历史，解析成功后自动保存</div>';
+    return;
+  }
+  hist_list.innerHTML = hist_cache
+    .map(function (item, index) {
+      return (
+        '<button class="hist_item" type="button" data_index="' +
+        index +
+        '">' +
+        '<div class="hist_item_url">' +
+        escape_html(item.url || '') +
+        '</div>' +
+        '<div class="hist_item_meta">' +
+        '<span>' +
+        escape_html(item.tip || '') +
+        '</span>' +
+        '<span>' +
+        escape_html(format_time(item.at || 0)) +
+        '</span>' +
+        '</div>' +
+        '</button>'
+      );
+    })
+    .join('');
+}
+
+function open_history() {
+  load_history(function () {
+    render_history();
+    hist_mask.hidden = false;
+    hist_drawer.classList.add('is_open');
+    hist_drawer.setAttribute('aria-hidden', 'false');
+  });
+}
+
+function close_history() {
+  hist_mask.hidden = true;
+  hist_drawer.classList.remove('is_open');
+  hist_drawer.setAttribute('aria-hidden', 'true');
+}
+
+function apply_history(index) {
+  var item = hist_cache[index];
+  if (!item || !item.url) return;
+  input_el.value = item.url;
+  close_history();
+  run_parse();
+  set_status('已载入历史记录', true);
 }
 
 /** 多层 URI 解码 */
@@ -259,6 +381,7 @@ function run_parse() {
     var search_n = Object.keys(data.search).length;
     var hash_n = Object.keys(data.hash_search).length + (data.hash_path ? 1 : 0);
     set_status('解析成功 · Search ' + search_n + ' 项 · Hash ' + hash_n + ' 项', true);
+    schedule_history(text.trim(), data);
   } catch (err) {
     render_result(null);
     set_status('解析失败：' + err.message, false);
@@ -320,6 +443,34 @@ input_el.addEventListener('keydown', (e) => {
     run_parse();
   }
 });
+
+document.getElementById('hist_btn').addEventListener('click', open_history);
+document.getElementById('hist_close_btn').addEventListener('click', close_history);
+hist_mask.addEventListener('click', close_history);
+
+document.getElementById('hist_clear_btn').addEventListener('click', function () {
+  save_history([], function () {
+    last_saved_url = '';
+    render_history();
+    set_status('已清空历史', true);
+  });
+});
+
+hist_list.addEventListener('click', function (e) {
+  var item = e.target.closest('.hist_item');
+  if (!item) return;
+  var index = Number(item.getAttribute('data_index'));
+  if (!isFinite(index)) return;
+  apply_history(index);
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && hist_drawer.classList.contains('is_open')) {
+    close_history();
+  }
+});
+
+load_history();
 
 (function init() {
   var params = new URLSearchParams(location.search);

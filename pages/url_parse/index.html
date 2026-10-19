@@ -15,6 +15,7 @@
       <div class="bar_spacer"></div>
       <button class="bar_link" id="clear_btn" type="button">清空</button>
       <button class="bar_link" id="copy_all_btn" type="button">复制全部</button>
+      <button class="bar_btn" id="hist_btn" type="button">历史</button>
     </header>
 
     <div class="url_body">
@@ -48,6 +49,18 @@
     <div class="pane_foot">
       <span class="status_tip" id="status_tip"></span>
     </div>
+
+    <div class="hist_mask" id="hist_mask" hidden></div>
+    <aside class="hist_drawer" id="hist_drawer" aria-hidden="true">
+      <div class="hist_head">
+        <span class="hist_title">历史解析</span>
+        <div class="hist_head_actions">
+          <button class="hist_clear" id="hist_clear_btn" type="button">清空</button>
+          <button class="hist_close" id="hist_close_btn" type="button" aria-label="关闭">×</button>
+        </div>
+      </div>
+      <div class="hist_list" id="hist_list"></div>
+    </aside>
   </div>
   <script src="../../shared/tool_list.js"></script>
   <script src="../../shared/page_header.js"></script>
