@@ -195,8 +195,8 @@
   flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  width: 96px;
+  gap: 6px;
+  width: 132px;
   margin-top: 1px;
   font-size: 12px;
 }

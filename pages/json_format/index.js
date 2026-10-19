@@ -236,6 +236,8 @@ function push_lines(val, path, key, is_index, is_last, lines) {
     lines.push({
       path: path,
       role: 'open',
+      key: key,
+      is_index: is_index,
       html: key_html(key, is_index) + '<span class="json_mark">' + open + '</span>' +
         (folded ? ' <span class="json_preview">...</span> <span class="json_mark">' + close + '</span>' + comma : '') +
         count_hint(val)
@@ -261,6 +263,8 @@ function push_lines(val, path, key, is_index, is_last, lines) {
   lines.push({
     path: path,
     role: 'leaf',
+    key: key,
+    is_index: is_index,
     html: key_html(key, is_index) + value_html(val) + comma
   });
 }
@@ -300,7 +304,10 @@ function render_tree() {
     }
     var acts = '<span class="line_acts">';
     if (line.path === selected_path && line.role !== 'close') {
-      acts += '<button type="button" data_act="copy">复制</button>' +
+      if (line.key !== undefined && !line.is_index) {
+        acts += '<button type="button" data_act="copy_key" title="复制属性名">属性名</button>';
+      }
+      acts += '<button type="button" data_act="copy" title="复制节点值">节点值</button>' +
         '<button type="button" data_act="delete">删除</button>';
     }
     acts += '</span>';
@@ -746,6 +753,17 @@ tree_el.addEventListener('click', async (e) => {
   if (act) {
     var action = act.getAttribute('data_act');
     var node = get_by_path(result_data, selected_path);
+    if (action === 'copy_key') {
+      // 按钮仅对对象成员渲染，末段 token 一定是字符串 key
+      var tokens = parse_path(selected_path);
+      try {
+        await copy_text(String(tokens[tokens.length - 1]));
+        set_status('已复制 Key', true);
+      } catch (err) {
+        set_status('复制失败', false);
+      }
+      return;
+    }
     if (action === 'copy') {
       try {
         await copy_text(typeof node === 'string' ? node : JSON.stringify(node, null, 2));
@@ -773,8 +791,39 @@ tree_el.addEventListener('click', async (e) => {
   if (!line) {
     return;
   }
-  selected_path = line.getAttribute('data_path') || '';
-  render_tree();
+  var path = line.getAttribute('data_path') || '';
+  if (path !== selected_path) {
+    selected_path = path;
+    render_tree();
+  }
+});
+
+// 双击 key 直接复制属性名
+tree_el.addEventListener('dblclick', async (e) => {
+  // 单击选中会重绘 DOM，dblclick 可能落在共同祖先上，用坐标兜底定位 key 元素
+  var key_el = e.target.closest && e.target.closest('.json_key');
+  if (!key_el) {
+    var under = document.elementFromPoint(e.clientX, e.clientY);
+    key_el = under && under.closest ? under.closest('.json_key') : null;
+  }
+  if (!key_el) {
+    return;
+  }
+  var line = key_el.closest('.json_line');
+  if (!line) {
+    return;
+  }
+  var tokens = parse_path(line.getAttribute('data_path') || '');
+  var key = tokens[tokens.length - 1];
+  if (typeof key !== 'string' || key === '') {
+    return;
+  }
+  try {
+    await copy_text(key);
+    set_status('已复制 Key：' + key, true);
+  } catch (err) {
+    set_status('复制失败', false);
+  }
 });
 
 input_el.addEventListener('input', () => {
