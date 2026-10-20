@@ -1,35 +1,95 @@
-/* 加密解密页：配置区（分组参数面板） + 输入输出分栏 + 使用说明弹层 */
+/* 加密解密页：左侧参数 + 右侧方案面板 + 输入输出分栏 + 使用说明弹层 */
 
+/* ========== 顶栏：加密/解密次级样式（主视觉留给生成按钮） ========== */
+.tool_bar > .crypt_action_btn {
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-panel);
+  color: var(--color-accent);
+}
+
+.tool_bar > .crypt_action_btn:hover {
+  background: #e8f0fe;
+  color: #2563eb;
+}
+
+.tool_bar > .crypt_action_btn:disabled {
+  border-color: var(--color-line);
+  background: var(--color-soft);
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* 使用说明入口：问号图标 */
+.question_icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.manual_link:hover .question_icon {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ========== 配置区：左参数 + 右方案面板 ========== */
 .crypt_config {
   flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
   padding: 10px 14px 12px;
   background: var(--color-panel);
   border-bottom: 1px solid var(--color-line);
 }
 
-/* ========== 配置方案栏 ========== */
-.plan_bar {
+.config_main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 右侧固定方案面板 */
+.plan_side {
+  flex-shrink: 0;
+  width: 236px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--color-line);
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
+  flex-direction: column;
 }
 
-.plan_label {
-  margin-right: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #475569;
+.plan_side_select,
+.plan_side_input {
+  width: 100%;
+  margin-bottom: 8px;
 }
 
-.plan_bar .crypt_select {
-  width: 150px;
-  margin-right: 8px;
+.plan_side_btns {
+  display: flex;
 }
 
-.plan_name_input {
-  width: 120px;
-  margin-right: 8px;
+.plan_side_btns .crypt_flat {
+  flex: 1;
+  margin: 0 8px 0 0;
+}
+
+.plan_side_btns .crypt_flat:last-child {
+  margin-right: 0;
+}
+
+.plan_side_hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #94a3b8;
 }
 
 /* ========== 参数分组：必填 / 可选 ========== */
@@ -54,12 +114,22 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.param_row:last-child {
+  margin-bottom: 0;
+}
+
+/* display:flex 会盖住 hidden 属性，需显式覆盖（ECB 隐藏 IV 行） */
+.param_row[hidden] {
+  display: none;
 }
 
 .param_item {
   display: flex;
   align-items: center;
-  margin: 0 12px 8px 0;
+  margin-right: 12px;
 }
 
 .param_label {
@@ -107,10 +177,11 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
+/* 主按钮：生成类操作 */
 .crypt_btn {
   height: 30px;
-  margin-right: 8px;
-  padding: 0 14px;
+  margin-right: 12px;
+  padding: 0 12px;
   border: none;
   border-radius: 4px;
   background: var(--color-accent);
@@ -128,6 +199,7 @@
   cursor: not-allowed;
 }
 
+/* 次级按钮 */
 .crypt_flat {
   height: 30px;
   margin: 0 12px 8px 0;
@@ -153,6 +225,7 @@
 .rsa_key_row {
   display: flex;
   width: 100%;
+  margin-bottom: 2px;
 }
 
 .rsa_key_col {

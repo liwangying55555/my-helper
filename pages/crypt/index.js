@@ -18,7 +18,6 @@ var active_algo = 'aes';
 var plans = [];
 var busy = false;
 
-// 当前输出操作相对应的代码名（提示用）
 function set_status(text, is_ok) {
   status_el.textContent = text || '';
   status_el.className = is_ok ? 'status_tip status_ok' : 'status_tip status_err';
@@ -125,12 +124,11 @@ function switch_algo(algo) {
   algo_rsa_btn.classList.toggle('is_active', algo === 'rsa');
 }
 
-/** ECB 不需要 IV（整组隐藏）；流式模式与 GCM 填充固定无填充；OAEP 才有哈希选择 */
+/** ECB 不需要 IV（整行隐藏）；流式模式与 GCM 填充固定无填充；OAEP 才有哈希选择 */
 function sync_mode_ui() {
   var mode = val('aes_mode');
   var needs_iv = mode !== 'ECB';
   set_hidden('aes_iv_group', !needs_iv);
-  set_hidden('aes_iv_format_item', !needs_iv);
   document.getElementById('aes_gen_iv_btn').disabled = !needs_iv;
 
   var pad_disabled = mode === 'GCM' || AES_STREAM_MODES.indexOf(mode) !== -1;
@@ -338,17 +336,6 @@ async function gen_rsa_keypair() {
 
 // ===== 输出区操作 =====
 
-function swap_output() {
-  var output = output_area.value;
-  if (!output) {
-    set_status('输出为空，无法转输入', false);
-    return;
-  }
-  input_area.value = output;
-  output_area.value = '';
-  set_status('已将输出转入输入，可直接解密', true);
-}
-
 function copy_output() {
   var output = output_area.value;
   if (!output) {
@@ -402,7 +389,6 @@ document.getElementById('aes_gen_key_btn').addEventListener('click', gen_aes_key
 document.getElementById('aes_gen_iv_btn').addEventListener('click', gen_aes_iv);
 document.getElementById('rsa_gen_btn').addEventListener('click', gen_rsa_keypair);
 
-document.getElementById('swap_btn').addEventListener('click', swap_output);
 document.getElementById('copy_btn').addEventListener('click', copy_output);
 document.getElementById('clear_btn').addEventListener('click', clear_all);
 
