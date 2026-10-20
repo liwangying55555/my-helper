@@ -7,13 +7,29 @@ import {
   TOOL_ORDER_KEY,
   ACTION_PINS_KEY,
   ACTION_ORDER_KEY,
+  KNOWN_PANEL_KEY,
+  KNOWN_ACTION_KEY,
   normalize_pins,
   normalize_order,
   DEFAULT_PINS,
   normalize_action_pins,
   normalize_action_order,
   DEFAULT_ACTION_PINS,
+  merge_new_pins,
+  TOOL_LIST,
 } from '../shared/tool_list.js';
+
+var PANEL_IDS = TOOL_LIST.filter(function (item) {
+  return item.kind !== 'action';
+}).map(function (item) {
+  return item.id;
+});
+
+var ACTION_IDS = TOOL_LIST.filter(function (item) {
+  return item.kind === 'action';
+}).map(function (item) {
+  return item.id;
+});
 
 var pending_full_shot = null;
 var full_shot_busy = false;
@@ -26,21 +42,32 @@ var STITCH_OVERLAP = 72;
 var RESULT_PATH = 'pages/full_shot/index.html';
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(
-    [PANEL_PINS_KEY, TOOL_ORDER_KEY, ACTION_PINS_KEY, ACTION_ORDER_KEY],
-    (exist) => {
-      var data = {};
-      data[PANEL_PINS_KEY] = Array.isArray(exist[PANEL_PINS_KEY])
-        ? normalize_pins(exist[PANEL_PINS_KEY])
-        : DEFAULT_PINS.slice();
-      data[TOOL_ORDER_KEY] = normalize_order(exist[TOOL_ORDER_KEY]);
-      data[ACTION_PINS_KEY] = Array.isArray(exist[ACTION_PINS_KEY])
-        ? normalize_action_pins(exist[ACTION_PINS_KEY])
-        : DEFAULT_ACTION_PINS.slice();
-      data[ACTION_ORDER_KEY] = normalize_action_order(exist[ACTION_ORDER_KEY]);
-      chrome.storage.local.set(data);
-    }
-  );
+  var keys = [
+    PANEL_PINS_KEY,
+    TOOL_ORDER_KEY,
+    ACTION_PINS_KEY,
+    ACTION_ORDER_KEY,
+    KNOWN_PANEL_KEY,
+    KNOWN_ACTION_KEY
+  ];
+  chrome.storage.local.get(keys, (exist) => {
+    // 更新场景：新增工具自动补入置顶末尾；用户主动移出的不受影响
+    var panel_pins = Array.isArray(exist[PANEL_PINS_KEY])
+      ? merge_new_pins(normalize_pins(exist[PANEL_PINS_KEY]), exist[KNOWN_PANEL_KEY], PANEL_IDS)
+      : DEFAULT_PINS.slice();
+    var action_pins = Array.isArray(exist[ACTION_PINS_KEY])
+      ? merge_new_pins(normalize_action_pins(exist[ACTION_PINS_KEY]), exist[KNOWN_ACTION_KEY], ACTION_IDS)
+      : DEFAULT_ACTION_PINS.slice();
+
+    var data = {};
+    data[PANEL_PINS_KEY] = panel_pins;
+    data[TOOL_ORDER_KEY] = normalize_order(exist[TOOL_ORDER_KEY]);
+    data[ACTION_PINS_KEY] = action_pins;
+    data[ACTION_ORDER_KEY] = normalize_action_order(exist[ACTION_ORDER_KEY]);
+    data[KNOWN_PANEL_KEY] = PANEL_IDS;
+    data[KNOWN_ACTION_KEY] = ACTION_IDS;
+    chrome.storage.local.set(data);
+  });
 });
 
 function sleep(ms) {

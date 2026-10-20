@@ -60,6 +60,7 @@ export default defineConfig({
         'pages/color_pick/index': 'pages/color_pick/index.html',
         'pages/full_shot/index': 'pages/full_shot/index.html',
         'pages/qrcode/index': 'pages/qrcode/index.html',
+        'pages/crypt/index': 'pages/crypt/index.html',
         'pages/setting/index': 'pages/setting/index.html',
         ...CONTENT_INPUTS,
       },

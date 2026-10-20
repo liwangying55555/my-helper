@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>加密解密</title>
+  <link rel="stylesheet" href="../../shared/page_header.css" />
+  <link rel="stylesheet" href="../../shared/page_common.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="tool_page crypt_page">
+    <div id="app_header" data_tool_id="crypt"></div>
+
+    <!-- 顶部操作栏：算法切换 + 加解密主操作 -->
+    <header class="tool_bar">
+      <div class="bar_group">
+        <button class="bar_btn is_active" id="algo_aes_btn" type="button">AES</button>
+        <button class="bar_btn" id="algo_rsa_btn" type="button">RSA</button>
+      </div>
+      <button class="bar_btn" id="encrypt_btn" type="button">加密</button>
+      <button class="bar_btn" id="decrypt_btn" type="button">解密</button>
+      <div class="bar_spacer"></div>
+      <button class="bar_link" id="swap_btn" type="button">输出转输入</button>
+      <button class="bar_link" id="copy_btn" type="button">复制结果</button>
+      <button class="bar_link" id="clear_btn" type="button">清空</button>
+    </header>
+
+    <!-- 配置区 -->
+    <section class="crypt_config">
+      <!-- 配置方案栏：保存当前的完整参数，一键回填 -->
+      <div class="plan_bar">
+        <span class="plan_label">配置方案</span>
+        <select class="crypt_select" id="plan_select" title="选择已保存的配置方案"></select>
+        <input class="crypt_input plan_name_input" id="plan_name" type="text" maxlength="20" placeholder="方案名" />
+        <button class="crypt_btn" id="plan_save_btn" type="button">保存当前参数</button>
+        <button class="crypt_flat" id="plan_del_btn" type="button">删除</button>
+      </div>
+
+      <!-- AES 参数面板 -->
+      <div class="param_grid" id="aes_panel">
+        <div class="param_item">
+          <span class="param_label">密钥</span>
+          <input class="crypt_input param_input" id="aes_key" type="text" spellcheck="false" placeholder="AES 密钥" />
+        </div>
+        <div class="param_item">
+          <span class="param_label">格式</span>
+          <select class="crypt_select" id="aes_key_format">
+            <option value="utf8" selected="selected">UTF-8</option>
+            <option value="hex">Hex</option>
+            <option value="base64">Base64</option>
+          </select>
+        </div>
+        <div class="param_item">
+          <span class="param_label">长度</span>
+          <select class="crypt_select" id="aes_key_size">
+            <option value="16">128 位</option>
+            <option value="24">192 位</option>
+            <option value="32" selected="selected">256 位</option>
+          </select>
+        </div>
+        <button class="crypt_flat" id="aes_gen_key_btn" type="button" title="按所选长度随机生成密钥">生成密钥</button>
+        <div class="param_item" id="aes_iv_item">
+          <span class="param_label">IV</span>
+          <input class="crypt_input param_input" id="aes_iv" type="text" spellcheck="false" placeholder="初始向量（ECB 无需）" />
+        </div>
+        <div class="param_item" id="aes_iv_format_item">
+          <span class="param_label">IV 格式</span>
+          <select class="crypt_select" id="aes_iv_format">
+            <option value="utf8">UTF-8</option>
+            <option value="hex" selected="selected">Hex</option>
+            <option value="base64">Base64</option>
+          </select>
+        </div>
+        <button class="crypt_flat" id="aes_gen_iv_btn" type="button" title="随机生成 16 字节 IV">生成 IV</button>
+        <div class="param_item">
+          <span class="param_label">模式</span>
+          <select class="crypt_select" id="aes_mode">
+            <option value="CBC" selected="selected">CBC</option>
+            <option value="ECB">ECB</option>
+            <option value="CTR">CTR</option>
+            <option value="CFB">CFB</option>
+            <option value="OFB">OFB</option>
+            <option value="GCM">GCM</option>
+          </select>
+        </div>
+        <div class="param_item" id="aes_pad_item">
+          <span class="param_label">填充</span>
+          <select class="crypt_select" id="aes_pad">
+            <option value="Pkcs7" selected="selected">PKCS7</option>
+            <option value="Zero">Zero</option>
+            <option value="NoPadding">NoPadding</option>
+          </select>
+        </div>
+        <div class="param_item">
+          <span class="param_label">密文编码</span>
+          <select class="crypt_select" id="aes_codec">
+            <option value="base64" selected="selected">Base64</option>
+            <option value="hex">Hex</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- RSA 参数面板 -->
+      <div class="param_grid" id="rsa_panel" hidden="hidden">
+        <div class="param_item">
+          <span class="param_label">密钥长度</span>
+          <select class="crypt_select" id="rsa_key_size">
+            <option value="1024">1024 位</option>
+            <option value="2048" selected="selected">2048 位</option>
+            <option value="4096">4096 位</option>
+          </select>
+        </div>
+        <button class="crypt_flat" id="rsa_gen_btn" type="button">生成密钥对</button>
+        <div class="param_item">
+          <span class="param_label">填充</span>
+          <select class="crypt_select" id="rsa_padding">
+            <option value="PKCS1v15" selected="selected">PKCS#1 v1.5</option>
+            <option value="OAEP">OAEP</option>
+          </select>
+        </div>
+        <div class="param_item" id="rsa_hash_item">
+          <span class="param_label">OAEP 哈希</span>
+          <select class="crypt_select" id="rsa_hash">
+            <option value="SHA-256" selected="selected">SHA-256</option>
+            <option value="SHA-1">SHA-1</option>
+          </select>
+        </div>
+        <div class="param_item">
+          <span class="param_label">密文编码</span>
+          <select class="crypt_select" id="rsa_codec">
+            <option value="base64" selected="selected">Base64</option>
+            <option value="hex">Hex</option>
+          </select>
+        </div>
+        <div class="rsa_key_row">
+          <div class="rsa_key_col">
+            <span class="param_label">公钥（加密用，支持 PKCS#1 / PKCS#8 PEM）</span>
+            <textarea class="crypt_key_area" id="rsa_public_key" spellcheck="false" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----"></textarea>
+          </div>
+          <div class="rsa_key_col">
+            <span class="param_label">私钥（解密用，支持 PKCS#1 / PKCS#8 PEM）</span>
+            <textarea class="crypt_key_area" id="rsa_private_key" spellcheck="false" placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 输入 / 输出区 -->
+    <div class="pane_wrap">
+      <section class="pane_box pane_input">
+        <div class="pane_head">
+          <span>输入</span>
+          <span class="pane_hint">Ctrl + Enter 快速加密</span>
+        </div>
+        <div class="editor_box">
+          <textarea class="code_area" id="input_area" spellcheck="false" placeholder="输入明文或密文"></textarea>
+        </div>
+      </section>
+      <section class="pane_box pane_output">
+        <div class="pane_head">
+          <span>输出</span>
+        </div>
+        <div class="editor_box">
+          <textarea class="code_area" id="output_area" spellcheck="false" readonly="readonly" placeholder="结果将显示在这里"></textarea>
+        </div>
+      </section>
+    </div>
+
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
+  </div>
+  <script type="module" src="../../shared/page_header.js"></script>
+  <script type="module" src="index.js"></script>
+</body>
+</html>
