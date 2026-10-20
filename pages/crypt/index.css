@@ -209,6 +209,11 @@
   background: rgba(15, 23, 42, 0.45);
 }
 
+/* hidden 属性需覆盖 display:flex，否则弹层关不掉 */
+.manual_mask[hidden] {
+  display: none;
+}
+
 .manual_card {
   display: flex;
   flex-direction: column;
