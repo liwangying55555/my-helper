@@ -125,11 +125,11 @@ function switch_algo(algo) {
   algo_rsa_btn.classList.toggle('is_active', algo === 'rsa');
 }
 
-/** ECB 不需要 IV；流式模式与 GCM 填充固定无填充；OAEP 才有哈希选择 */
+/** ECB 不需要 IV（整组隐藏）；流式模式与 GCM 填充固定无填充；OAEP 才有哈希选择 */
 function sync_mode_ui() {
   var mode = val('aes_mode');
   var needs_iv = mode !== 'ECB';
-  set_hidden('aes_iv_item', !needs_iv);
+  set_hidden('aes_iv_group', !needs_iv);
   set_hidden('aes_iv_format_item', !needs_iv);
   document.getElementById('aes_gen_iv_btn').disabled = !needs_iv;
 
@@ -140,6 +140,16 @@ function sync_mode_ui() {
 
   var oaep = val('rsa_padding') === 'OAEP';
   set_hidden('rsa_hash_item', !oaep);
+}
+
+// ===== 使用说明弹层 =====
+
+function open_manual() {
+  document.getElementById('manual_mask').hidden = false;
+}
+
+function close_manual() {
+  document.getElementById('manual_mask').hidden = true;
 }
 
 // ===== 配置方案：本地存取 =====
@@ -399,6 +409,19 @@ document.getElementById('clear_btn').addEventListener('click', clear_all);
 plan_select.addEventListener('change', use_plan);
 document.getElementById('plan_save_btn').addEventListener('click', save_plan);
 document.getElementById('plan_del_btn').addEventListener('click', delete_plan);
+
+document.getElementById('manual_btn').addEventListener('click', open_manual);
+document.getElementById('manual_close_btn').addEventListener('click', close_manual);
+document.getElementById('manual_mask').addEventListener('click', function (e) {
+  if (e.target === this) {
+    close_manual();
+  }
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !document.getElementById('manual_mask').hidden) {
+    close_manual();
+  }
+});
 
 input_area.addEventListener('keydown', function (e) {
   if (e.ctrlKey && e.key === 'Enter') {

@@ -1,4 +1,4 @@
-/* 加密解密页：配置区（方案栏 + 参数面板） + 输入输出分栏 */
+/* 加密解密页：配置区（分组参数面板） + 输入输出分栏 + 使用说明弹层 */
 
 .crypt_config {
   flex-shrink: 0;
@@ -32,8 +32,25 @@
   margin-right: 8px;
 }
 
-/* ========== 参数面板 ========== */
-.param_grid {
+/* ========== 参数分组：必填 / 可选 ========== */
+.param_group {
+  margin-bottom: 8px;
+}
+
+.param_group:last-child {
+  margin-bottom: 0;
+}
+
+.group_title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.param_row {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -53,11 +70,18 @@
 }
 
 .param_item .crypt_select {
-  width: 110px;
+  width: 104px;
 }
 
 .param_input {
-  width: 230px;
+  width: 220px;
+}
+
+/* 必填标记 */
+.req_star {
+  margin-right: 2px;
+  color: #dc2626;
+  font-weight: 700;
 }
 
 /* ========== 通用表单控件 ========== */
@@ -106,7 +130,7 @@
 
 .crypt_flat {
   height: 30px;
-  margin: 0 8px 8px 0;
+  margin: 0 12px 8px 0;
   padding: 0 10px;
   border: 1px solid var(--color-line-strong);
   border-radius: 4px;
@@ -129,7 +153,6 @@
 .rsa_key_row {
   display: flex;
   width: 100%;
-  margin-top: 2px;
 }
 
 .rsa_key_col {
@@ -145,7 +168,7 @@
 }
 
 .crypt_key_area {
-  height: 86px;
+  height: 80px;
   margin-top: 6px;
   padding: 8px 10px;
   border: 1px solid var(--color-line-strong);
@@ -169,4 +192,107 @@
   font-size: 12px;
   font-weight: 400;
   color: #94a3b8;
+}
+
+/* ========== 使用说明弹层 ========== */
+.manual_mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.manual_card {
+  display: flex;
+  flex-direction: column;
+  width: min(620px, 100%);
+  max-height: calc(100vh - 48px);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 10px;
+  background: var(--color-panel);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+}
+
+.manual_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-chrome-sub);
+  border-radius: 10px 10px 0 0;
+}
+
+.manual_title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.manual_head .crypt_flat {
+  margin: 0;
+}
+
+.manual_body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px 16px;
+}
+
+.manual_sec {
+  margin-bottom: 14px;
+}
+
+.manual_sec:last-child {
+  margin-bottom: 0;
+}
+
+.manual_sec_title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.manual_ol,
+.manual_ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.manual_ol li,
+.manual_ul li {
+  margin-bottom: 2px;
+}
+
+.manual_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.manual_table th,
+.manual_table td {
+  padding: 6px 8px;
+  border: 1px solid var(--color-line);
+  text-align: left;
+  color: var(--color-text);
+}
+
+.manual_table th {
+  background: var(--color-soft);
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
 }
