@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "jsencrypt": "^3.5.4"
+    "jsencrypt": "^3.5.4",
+    "jsqr": "^1.4.0"
   }
 }

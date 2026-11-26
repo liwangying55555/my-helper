@@ -15,7 +15,7 @@
 | 链接解析 | 解析 origin、pathname、Search / Hash（兼容 Vue Hash 路由） |
 | 取色 | 面板一键网页截屏取色；工具页图片点选，连续取色 / 放大镜 / 历史 |
 | 整页截图 | 页面类入口：内层滚动 / 懒加载等待 / JPG 输出；超长页拆多图；结果页 Ctrl/⌘+S 保存 |
-| 二维码 | 文本即时生成二维码 |
+| 二维码 | 文本即时生成二维码；上传或粘贴图片解析二维码 |
 | 加密解密 | AES（CBC/ECB/CTR/CFB/OFB/GCM）、RSA（PKCS#1 v1.5 / OAEP），参数在线配置，多套方案本地保存 |
 | 设置 | 分别配置「页面功能」与「工具」置顶及排序，配置仅存本地 |
 
@@ -72,7 +72,7 @@ yarn zip          # 将 dist/ 打包为 my-helper-v{版本}.zip
 - 入口脚本（popup、background service worker、各功能页）会被打包、压缩、hash 化；
 - 共享逻辑（`shared/tool_list.js` 等）提取为公共 chunk，被各入口复用；
 - `content/` 注入脚本同样参与构建压缩，但保持原路径输出（`dist/content/*.js`），`service_worker` 动态注入路径不受影响；
-- 第三方库 `qrcode_lib.js` 位于 `public/`，原样拷贝（本身已是压缩发布版）；
+- 第三方库 `qrcode_lib.js` 位于 `public/`，原样拷贝（本身已是压缩发布版）；二维码解析使用依赖 `jsqr`，由 Vite 打进页面脚本；
 - `vite dev`（HMR 开发模式）未适配本扩展的页面结构，开发请直接改源码后 `yarn build` 验证。
 
 分发方式：

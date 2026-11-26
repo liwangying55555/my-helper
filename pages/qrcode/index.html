@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>二维码生成</title>
+  <title>二维码</title>
   <link rel="stylesheet" href="../../shared/page_header.css" />
   <link rel="stylesheet" href="../../shared/page_common.css" />
   <link rel="stylesheet" href="index.css" />
@@ -11,7 +11,20 @@
   <div class="tool_page qr_page">
     <div id="app_header" data_tool_id="qrcode"></div>
 
-    <main class="qr_main">
+    <!-- 模式切换：默认生成，可切到解析 -->
+    <header class="tool_bar">
+      <div class="bar_group">
+        <button class="bar_btn is_active" id="make_btn" type="button">生成二维码</button>
+        <button class="bar_btn" id="read_btn" type="button">解析二维码</button>
+      </div>
+      <div class="bar_spacer"></div>
+      <button class="bar_link" id="paste_btn" type="button" hidden="hidden">粘贴图片</button>
+      <button class="bar_link" id="copy_btn" type="button" hidden="hidden">复制结果</button>
+      <button class="bar_link" id="clear_btn" type="button">清空</button>
+    </header>
+
+    <!-- 生成：输入文字，即时出码 -->
+    <main class="qr_main" id="make_panel">
       <div class="qr_panel">
         <section class="qr_input_side">
           <div class="qr_input_head">
@@ -36,6 +49,55 @@
         </section>
       </div>
     </main>
+
+    <!-- 解析：上传或粘贴图片，识别文字 -->
+    <main class="qr_main" id="read_panel" hidden="hidden">
+      <div class="qr_panel">
+        <section class="qr_input_side">
+          <div class="qr_input_head">
+            <h2 class="qr_input_title">上传图片</h2>
+            <p class="qr_input_tip">点击、拖拽或粘贴</p>
+          </div>
+          <input type="file" id="file_input" accept="image/*" hidden="hidden" />
+          <div class="qr_drop" id="drop_zone">
+            <div class="qr_drop_empty" id="drop_empty">
+              <div class="qr_drop_icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path fill="#fff" d="M18.944 11.112C18.507 7.67 15.56 5 12 5C9.244 5 6.85 6.611 5.757 9.15C3.609 9.792 2 11.82 2 14c0 2.757 2.243 5 5 5h11c2.206 0 4-1.794 4-4a4.01 4.01 0 0 0-3.056-3.888M13 14v3h-2v-3H8l4-5l4 5z" />
+                </svg>
+              </div>
+              <p class="qr_drop_title">点击或拖拽图片到此处</p>
+              <p class="qr_drop_desc">支持 PNG、JPG、WebP、GIF，也可 Ctrl+V 粘贴</p>
+              <span class="qr_drop_btn">选择图片</span>
+            </div>
+            <div class="qr_drop_preview" id="drop_preview" hidden="hidden">
+              <img class="qr_drop_img" id="preview_img" alt="待解析的二维码图片" />
+              <span class="qr_drop_tip">点击更换图片</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="qr_preview_side">
+          <div class="qr_preview_head">解析结果</div>
+          <div class="qr_preview_body">
+            <div class="qr_result_card">
+              <textarea
+                class="qr_result_area"
+                id="read_result"
+                spellcheck="false"
+                readonly="readonly"
+                placeholder="识别到的文字、链接会显示在这里"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="pane_foot">
+      <span class="status_tip" id="status_tip"></span>
+    </div>
   </div>
   <script src="/pages/qrcode/qrcode_lib.js"></script>
   <script type="module" src="../../shared/page_header.js"></script>
