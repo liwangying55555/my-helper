@@ -1,6 +1,6 @@
 {
   "name": "my-helper",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "type": "module",
   "description": "本地即时可用的浏览器助手插件",
